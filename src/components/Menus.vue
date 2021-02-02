@@ -1,0 +1,136 @@
+<template>
+  <div class="row pt-4 mx-0" style="height:min-content;width:100%">
+    <!-- Start Loading Spinner -->
+    <div class="text-center p-4 m-4 w-100" v-if="menusIsLoading">
+      <div class="d-flex justify-content-center w-100">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <h5 class="mt-4">Fetching Data</h5>
+    </div>
+    <!-- End Loading Spinner -->
+    <!-- Start Disconnected -->
+    <div class="text-center p-4 m-4 w-100" v-else-if="menus.length === 0">
+      <img src="https://i.ibb.co/ZmtvK2V/undraw-server-down-s4lk-1.png" class="img-fluid" style="max-height:40%" alt="">
+      <h1 class="pt-4 font-weight-bold">Server Not Connected</h1>
+      <h4 class="">Please start your server and refresh the page</h4>
+      <button type="button" @click="getMenus" class="btn font-weight-bold btn-blue">Refresh Page</button>
+    </div>
+    <!-- End Disconnected -->
+     <!-- Start Menus -->
+    <div v-else class="w-100">
+      <!-- Start Search and Sort Combo -->
+      <div id="top" class="row ml-2 mb-4" style="width:100%">
+        <!-- Search Bar -->
+      <div class="col-8">
+          <div v-show="searchBarStatus" class="form-inline">
+            <input class="form-control mr-sm-2" type="search" v-model="searchName" placeholder="Search">
+          </div>
+        </div>
+        <!-- End SearchBar -->
+        <!-- Start Sort By-->
+        <div class="col-4">
+          <!-- <b-dropdown style="float:right" text="Sort By">
+            <b-dropdown-item @click="getMenusFilter('order=created_at&sort=asc')" href="#">Added <b-icon
+                icon="sort-alpha-down"></b-icon>
+            </b-dropdown-item>
+            <b-dropdown-item @click="getMenusFilter('order=created_at&sort=desc')" href="#">Added <b-icon
+                icon="sort-alpha-up"></b-icon>
+            </b-dropdown-item>
+            <b-dropdown-item @click="getMenusFilter('order=category_id&sort=asc')" href="#">Category <b-icon
+                icon="sort-alpha-down"></b-icon>
+            </b-dropdown-item>
+            <b-dropdown-item @click="getMenusFilter('order=category_id&sort=desc')" href="#">Category <b-icon
+                icon="sort-alpha-up"></b-icon>
+            </b-dropdown-item>
+            <b-dropdown-item @click="getMenusFilter('order=name&sort=asc')">Name <b-icon
+                icon="sort-alpha-down"></b-icon>
+            </b-dropdown-item>
+            <b-dropdown-item @click="getMenusFilter('order=name&sort=desc')" href="#">Name <b-icon
+                icon="sort-alpha-up"></b-icon>
+            </b-dropdown-item>
+            <b-dropdown-item @click="getMenusFilter('order=price&sort=asc')" href="#">Price <b-icon
+                icon="sort-alpha-down"></b-icon>
+            </b-dropdown-item>
+            <b-dropdown-item @click="getMenusFilter('order=price&sort=desc')" href="#">Price <b-icon
+                icon="sort-alpha-up"></b-icon>
+            </b-dropdown-item>
+          </b-dropdown> -->
+        </div>
+        <!-- End Sort By-->
+      </div>
+      <!-- End Search and Sort Combo -->
+      <!-- Start Menus Has Data -->
+      <div class="row ml-2" v-if="menus" style="width:100%">
+        <h1>Test</h1>
+        <!--
+        <div class="col-lg-4 col-md-4 col-sm-6 mb-3" style="height:min-content" v-for="item in menus" :key="item.id">
+          <div :id="'menuCard'+item.id" class="card menuCard bg-transparent border-0">
+            <div class="card-image" @click="setClicked(item);addToCart(item);" :class="{clicked:item.isClicked}">
+              <img :src="item.image" class="card-img-top menuImg" :alt="item.name">
+              <div
+                class="image-overlay text-white-50 text-center h-100 d-flex justify-content-center align-content-center"
+                style="vertical-align:middle">
+                <h1 class="my-auto" style="font-size:70px">
+                  <b-icon icon="check-circle"></b-icon>
+                </h1>
+              </div>
+            </div>
+            <div class="card-body menuBody pl-0 pt-2">
+              <h4 class="card-title menuName mb-0">{{item.name}}</h4>
+              <div class="row">
+                <div class="col-8">
+                  <h4 class="card-text menuPrice font-weight-bold">Rp. {{formatPrice(item.price)}}</h4>
+                </div>
+                <div class="col-4 my-auto" style="text-align:right">
+                  <router-link :to="'/menus/'+item.id" class="btn-success btn">Detail</router-link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        !-->
+      </div>
+      <!-- End Menus Has Data -->
+      <!-- Start Menus No Data -->
+      <div class="row ml-2" v-else style="width:100%">
+        <h1>No Data</h1>
+      </div>
+      <!-- End Menus No Data -->
+      <div class="row ml-2 mb-4 text-center" style="width:100%">
+        <!-- Start Pagination -->
+        <div class="w-100">
+          <h5 class="mb-0 d-inline font-weight-bold">Select Page: </h5>
+          <!-- <div class="d-inline" v-for="(element, index) in menusPage" :key="index">
+            <h5 class="d-inline"><span class="badge badge-primary mx-2" @click="getMenusPage(element)">{{index+1}}
+              </span></h5>
+          </div> -->
+        </div>
+        <!-- End Pagination -->
+      </div>
+    </div>
+    <!-- End Mennus-->
+  </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  name: 'Menus',
+  data () {
+    return {
+      menus: [{ id: 1, name: 'Pisang Goreng', price: '10000', image: 'https://i.ibb.co/njcF2xZ/m-latte.png' }],
+      menusIsLoading: false,
+      searchName: ''
+    }
+  },
+  computed: {
+    ...mapGetters(['searchBarStatus'])
+  }
+}
+</script>
+
+<style>
+
+</style>

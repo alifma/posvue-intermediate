@@ -49,7 +49,14 @@ router.beforeEach((to, from, next) => {
       })
     }
   } else {
-    next()
+    if (store.getters['auth/getToken']) {
+      Vue.swal({ icon: 'error', title: 'You already logged in' })
+      next({
+        path: '/'
+      })
+    } else {
+      next()
+    }
   }
 })
 

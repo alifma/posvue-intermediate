@@ -9,6 +9,7 @@ import VueSweetalert2 from 'vue-sweetalert2'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'sweetalert2/dist/sweetalert2.min.css'
+import '../src/assets/css/style.css'
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
