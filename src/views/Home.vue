@@ -6,7 +6,6 @@
         <div id="main" class="col-lg-8 pt-0 pb-0 pl-0 mb-0 pr-4 d-flex " style="width:100%">
           <Sidebar />
           <!-- Menu Tiles -->
-          <!-- <Content /> -->
           <Menus />
           <!-- End Menu Tiles -->
         </div>

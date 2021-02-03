@@ -8,8 +8,8 @@
             <h5>Please sign in</h5>
             <div class="d-flex justify-content-center">
               <form class="col-lg-4 col-md-4 col-sm-12" @submit.prevent="checkLogin()">
-                <input class="form-control mb-2" type="email" v-model="email" placeholder="Email">
-                <input class="form-control mb-2" type="password" v-model="password" placeholder="Password">
+                <input class="form-control mb-2" type="email" autocomplete="false" v-model="email" placeholder="Email">
+                <input class="form-control mb-2" type="password" autocomplete="false" v-model="password" placeholder="Password">
                 <button class="text-center btn btn-success w-100 mb-2" type="submit">Login</button>
                 <p>Dont have an account?</p>
                 <p @click="toggleRegister()">Register new account!</p>
@@ -20,9 +20,9 @@
             <h5>Register New Account</h5>
             <div class="d-flex justify-content-center">
               <form class="col-lg-4 col-md-4 col-sm-12"  @submit.prevent="checkRegister()">
-                <input class="form-control mb-2" type="text" required v-model="name" placeholder="Name">
-                <input class="form-control mb-2" type="email" required v-model="email" placeholder="Email">
-                <input class="form-control mb-2" type="password" required v-model="password" placeholder="Password">
+                <input class="form-control mb-2" type="text" required v-model="name" autocomplete="false" placeholder="Name">
+                <input class="form-control mb-2" type="email" required v-model="email" autocomplete="false" placeholder="Email">
+                <input class="form-control mb-2" type="password" required v-model="password" autocomplete="false" placeholder="Password">
                 <select class="custom-select mb-2" v-model="access">
                   <option value=0>Admin</option>
                   <option value=1>Cashier</option>

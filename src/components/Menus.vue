@@ -11,12 +11,12 @@
     </div>
     <!-- End Loading Spinner -->
     <!-- Start Disconnected -->
-    <div class="text-center p-4 m-4 w-100" v-else-if="menus.length === 0">
+    <!-- <div class="text-center p-4 m-4 w-100" v-else-if="menus.length === 0">
       <img src="https://i.ibb.co/ZmtvK2V/undraw-server-down-s4lk-1.png" class="img-fluid" style="max-height:40%" alt="">
       <h1 class="pt-4 font-weight-bold">Server Not Connected</h1>
       <h4 class="">Please start your server and refresh the page</h4>
       <button type="button" @click="getMenus" class="btn font-weight-bold btn-blue">Refresh Page</button>
-    </div>
+    </div> -->
     <!-- End Disconnected -->
      <!-- Start Menus -->
     <div v-else class="w-100">
@@ -25,7 +25,7 @@
         <!-- Search Bar -->
       <div class="col-8">
           <div v-show="searchBarStatus" class="form-inline">
-            <input class="form-control mr-sm-2" type="search" v-model="searchName" placeholder="Search">
+            <input class="form-control mr-sm-2" type="search" v-model="searchName" @keyup="getMenusByName" placeholder="Search">
           </div>
         </div>
         <!-- End SearchBar -->
@@ -63,12 +63,10 @@
       <!-- End Search and Sort Combo -->
       <!-- Start Menus Has Data -->
       <div class="row ml-2" v-if="menus" style="width:100%">
-        <h1>Test</h1>
-        <!--
         <div class="col-lg-4 col-md-4 col-sm-6 mb-3" style="height:min-content" v-for="item in menus" :key="item.id">
           <div :id="'menuCard'+item.id" class="card menuCard bg-transparent border-0">
-            <div class="card-image" @click="setClicked(item);addToCart(item);" :class="{clicked:item.isClicked}">
-              <img :src="item.image" class="card-img-top menuImg" :alt="item.name">
+            <div class="card-image" :class="{clicked:item.isClicked}">
+              <img :src="`http://52.91.116.102:3000/img/${item.image}`" class="card-img-top menuImg" :alt="item.name">
               <div
                 class="image-overlay text-white-50 text-center h-100 d-flex justify-content-center align-content-center"
                 style="vertical-align:middle">
@@ -78,10 +76,10 @@
               </div>
             </div>
             <div class="card-body menuBody pl-0 pt-2">
-              <h4 class="card-title menuName mb-0">{{item.name}}</h4>
-              <div class="row">
+              <h4 class="card-title menuName mb-0" style="text-align:left">{{item.name}}</h4>
+              <div class="row pl-0">
                 <div class="col-8">
-                  <h4 class="card-text menuPrice font-weight-bold">Rp. {{formatPrice(item.price)}}</h4>
+                  <h4 class="card-text menuPrice font-weight-bold" style="text-align:left">Rp. {{formatPrice(item.price)}}</h4>
                 </div>
                 <div class="col-4 my-auto" style="text-align:right">
                   <router-link :to="'/menus/'+item.id" class="btn-success btn">Detail</router-link>
@@ -90,7 +88,6 @@
             </div>
           </div>
         </div>
-        !-->
       </div>
       <!-- End Menus Has Data -->
       <!-- Start Menus No Data -->
@@ -102,12 +99,13 @@
         <!-- Start Pagination -->
         <div class="w-100">
           <h5 class="mb-0 d-inline font-weight-bold">Select Page: </h5>
-          <!-- <div class="d-inline" v-for="(element, index) in menusPage" :key="index">
-            <h5 class="d-inline"><span class="badge badge-primary mx-2" @click="getMenusPage(element)">{{index+1}}
+          <div class="d-inline" v-for="(element, index) in page" :key="index">
+            <h5 class="d-inline"><span class="badge badge-primary mx-2" @click="getMenusByPage(element)">{{index+1}}
               </span></h5>
-          </div> -->
+          </div>
         </div>
         <!-- End Pagination -->
+        <textarea v-model="page"></textarea>
       </div>
     </div>
     <!-- End Mennus-->
@@ -115,18 +113,38 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import { posvueMixin } from '../helper/mixin'
 export default {
   name: 'Menus',
+  mixins: [posvueMixin],
   data () {
     return {
-      menus: [{ id: 1, name: 'Pisang Goreng', price: '10000', image: 'https://i.ibb.co/njcF2xZ/m-latte.png' }],
       menusIsLoading: false,
       searchName: ''
     }
   },
   computed: {
-    ...mapGetters(['searchBarStatus'])
+    ...mapGetters({
+      menus: 'menus/menus',
+      page: 'menus/page',
+      searchBarStatus: 'searchBarStatus'
+    })
+  },
+  methods: {
+    ...mapActions({
+      getMenus: 'menus/getMenus',
+      getMenusByPage: 'menus/getMenusByUrl'
+    }),
+    getMenusByName () {
+      this.getMenus(this.searchName)
+    },
+    checkPage () {
+      console.log(this.page)
+    }
+  },
+  mounted () {
+    this.getMenus(this.searchName)
   }
 }
 </script>
