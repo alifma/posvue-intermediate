@@ -25,7 +25,7 @@
           <div class="mb-3 row">
             <label for="inputName" class="col-sm-3 col-form-label font-weight-bold">Name</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control shadow" v-model="form.name" placeholder="Food Name" id="inputName">
+              <input type="text" class="form-control shadow" v-model="newForm.name" placeholder="Food Name" id="inputName">
             </div>
           </div>
           <div class="mb-3 row">
@@ -37,20 +37,20 @@
           <div class="mb-3 row">
             <label for="inputPrice" class="col-sm-3 col-form-label font-weight-bold">Price</label>
             <div class="col-sm-7">
-              <input type="number" class="form-control shadow" style="text-align:right" placeholder="0" v-model="form.price"
+              <input type="number" class="form-control shadow" style="text-align:right" placeholder="0" v-model="newForm.price"
                 id="inputPrice">
             </div>
           </div>
           <div class="mb-3 row">
             <label for="inputCategory" class="col-sm-3 col-form-label font-weight-bold">Category</label>
             <div class="col-sm-5">
-              <b-form-select v-model="form.category_id" :options="categories"></b-form-select>
+              <b-form-select v-model="newForm.category_id" :options="categories"></b-form-select>
             </div>
           </div>
           <div class="div" style="text-align:right">
-          <button class="btn btn-pink mr-4" style="width:100px" @click="showAddModal = false">
+          <a class="btn btn-pink mr-4" style="width:100px" @click="showAddModal = false">
             Cancel
-          </button>
+          </a>
           <button class="btn btn-blue" style="width:100px" type="submit">
             Add
           </button>
@@ -73,7 +73,7 @@ export default {
     return {
       showAddModal: false,
       status: 1,
-      form: {
+      newForm: {
         name: '',
         price: '',
         category_id: 1,
@@ -93,7 +93,8 @@ export default {
     ...mapActions({
       logout: 'auth/logout',
       actionCategories: 'categories/getCategories',
-      actionPost: 'menus/addMenus'
+      actionPost: 'menus/addMenus',
+      getMenusAPI: 'menus/getMenus'
     }),
     onLogout () {
       this.logout().then((response) => {
@@ -111,16 +112,28 @@ export default {
         .catch((err) => { console.log(err) })
     },
     processFile (el) {
-      this.form.image = el.target.files[0]
+      this.newForm.image = el.target.files[0]
     },
     onSubmit () {
       const fd = new FormData()
-      fd.append('name', this.form.name)
-      fd.append('price', this.form.price)
-      fd.append('category_id', this.form.category_id)
-      fd.append('image', this.form.image)
+      fd.append('name', this.newForm.name)
+      fd.append('price', this.newForm.price)
+      fd.append('category_id', this.newForm.category_id)
+      fd.append('image', this.newForm.image)
       this.actionPost(fd)
-      this.showAddModal = false
+        .then((response) => {
+          if (response.data.code === 200) {
+            this.alertToast('success', response.data.msg)
+            this.getMenusAPI(this.form)
+            this.showAddModal = false
+          } else {
+            this.alertToast('error', response.data.msg)
+            this.showAddModal = false
+          }
+        })
+        .catch((err) => {
+          this.alertToast('error', err)
+        })
     }
   },
   mounted () {

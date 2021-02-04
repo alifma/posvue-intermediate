@@ -157,7 +157,15 @@ const moduleMenus = {
       context.commit('clearCarts')
     },
     addMenus (context, data) {
-      console.log(data)
+      return new Promise((resolve, reject) => {
+        axios.post(`${context.state.apiURL}/menus`, data, { headers: { token: context.rootState.auth.token } })
+          .then((response) => {
+            resolve(response)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
     }
   }
 }

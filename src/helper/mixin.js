@@ -14,7 +14,15 @@ export const posvueMixin = {
           toast.addEventListener('mouseenter', Swal.stopTimer)
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
-      })
+      }),
+      form: {
+        searchName: '',
+        page: 1,
+        limit: 6,
+        order: 'created_at',
+        sort: 'asc',
+        ready: 1
+      }
     }
   },
   methods: {

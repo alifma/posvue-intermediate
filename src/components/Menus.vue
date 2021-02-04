@@ -103,14 +103,6 @@ export default {
   mixins: [posvueMixin],
   data () {
     return {
-      form: {
-        searchName: '',
-        page: 1,
-        limit: 6,
-        order: 'created_at',
-        sort: 'asc',
-        ready: 1
-      }
     }
   },
   computed: {
