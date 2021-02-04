@@ -1,5 +1,5 @@
 <template>
- <div class="home">
+ <div class="history">
     <Navbar navpage='history' navtitle='History' />
     <div class="container-fluid px-0">
       <div class="row mx-0">

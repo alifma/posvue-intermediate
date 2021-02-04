@@ -73,6 +73,9 @@ input[type=number]::-webkit-outer-spin-button {
 #main {
   overflow-x: hidden;
 }
+.MainContent {
+  width: 100vw;
+}
 
 .sidebar-item {
   border: none;

@@ -5,6 +5,7 @@ const moduleMenus = {
     return {
       apiURL: process.env.VUE_APP_APIURL,
       menus: [],
+      details: {},
       isLoading: true,
       searchName: '',
       pagination: {},
@@ -16,6 +17,7 @@ const moduleMenus = {
     pagination: state => state.pagination,
     isLoading: state => state.isLoading,
     carts: state => state.carts,
+    details: state => state.details,
     qtyCarts (state) {
       return state.carts.reduce((a, b) => a + b.amount, 0)
     },
@@ -29,6 +31,9 @@ const moduleMenus = {
   mutations: {
     setMenus (state, payload) {
       state.menus = payload
+    },
+    setDetails (state, payload) {
+      state.details = payload
     },
     setPagination (state, payload) {
       state.pagination = payload
@@ -78,8 +83,8 @@ const moduleMenus = {
             if (response.data.data.length > 0) {
               context.commit('setPagination', response.data.pagination)
               context.commit('setMenus', response.data.data)
-              context.commit('checkClicked')
               context.state.isLoading = false
+              context.commit('checkClicked')
               resolve(response)
             } else {
               context.commit('setPagination', response.data.pagination)
@@ -87,6 +92,18 @@ const moduleMenus = {
               context.state.isLoading = false
               resolve(response)
             }
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getDetails (context, id) {
+      return new Promise((resolve, reject) => {
+        axios.get(`${context.state.apiURL}/menus/${id}`, { headers: { token: context.rootState.auth.token } })
+          .then((response) => {
+            context.commit('setDetails', response.data.data[0])
+            resolve(response.data.data[0])
           })
           .catch((err) => {
             reject(err)
@@ -138,6 +155,9 @@ const moduleMenus = {
     },
     clearCarts (context) {
       context.commit('clearCarts')
+    },
+    addMenus (context, data) {
+      console.log(data)
     }
   }
 }

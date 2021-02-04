@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import History from '../views/History.vue'
 import store from '../store/index'
+import Details from '../views/Details.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -20,9 +21,10 @@ const routes = [
     meta: { auth: true }
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/menus/:id',
+    name: 'Details',
+    component: Details,
+    meta: { auth: true }
   },
   {
     path: '/login',
