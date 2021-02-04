@@ -41,8 +41,8 @@
           <p style="font-size: 12px;">*Belum termasuk PPN</p>
           <!-- Input Name & Cashier -->
           <div class="input-group mb-3">
-            <input type="text" class="form-control" required v-model="trans.cashier" placeholder="Cashier Name">
-            <input type="number" class="form-control" required v-model="trans.invoices" placeholder="Invoices">
+            <input type="text" class="form-control mr-1" required v-model="trans.cashier" placeholder="Cashier Name">
+            <input type="number" class="form-control ml-1" required v-model="trans.invoices" placeholder="Invoices">
           </div>
           <!-- End Input Name & Cashier -->
           <button class="btn btn-blue d-block mb-2" style="width:100%" @click="checkout()"
@@ -129,17 +129,19 @@ export default {
       this.clearCarts()
       this.trans.cashier = ''
       this.trans.invoices = 0
+      this.alertToast('success', 'Chart has been cleaned')
     },
     checkout () {
       if (this.trans.cashier === '' || this.trans.invoices === 0) {
-        alert('Please Insert Cashier Name & Invoices')
+        this.alertToast('error', 'Please Insert Cashier Name & Invoices')
       } else if (this.trans.invoices.length > 10) {
-        alert('Please Check Invoices Length')
+        this.alertToast('error', 'Please Check Invoices Length')
       } else {
         this.showCheckoutModal = true
       }
     },
     postCart () {
+      // this.alertToast('error', 'Please Fill All Data')
       this.postCarts(this.trans)
     }
   },

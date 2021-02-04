@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import axios from 'axios'
 const moduleMenus = {
   namespaced: true,
@@ -73,22 +72,26 @@ const moduleMenus = {
   },
   actions: {
     getMenus (context, data) {
-      axios.get(`${context.state.apiURL}/menus?name=${data.searchName}&limit=${data.limit}&order=${data.order}&sort=${data.sort}&ready=${data.ready}&page=${data.page}`, { headers: { token: context.rootState.auth.token } })
-        .then((response) => {
-          if (response.data.data.length > 0) {
-            context.commit('setPagination', response.data.pagination)
-            context.commit('setMenus', response.data.data)
-            context.state.isLoading = false
-            context.commit('checkClicked')
-          } else {
-            Vue.swal({ icon: 'error', title: 'Nothing Found' })
-            context.state.isLoading = false
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          context.state.isLoading = false
-        })
+      return new Promise((resolve, reject) => {
+        axios.get(`${context.state.apiURL}/menus?name=${data.searchName}&limit=${data.limit}&order=${data.order}&sort=${data.sort}&ready=${data.ready}&page=${data.page}`, { headers: { token: context.rootState.auth.token } })
+          .then((response) => {
+            if (response.data.data.length > 0) {
+              context.commit('setPagination', response.data.pagination)
+              context.commit('setMenus', response.data.data)
+              context.commit('checkClicked')
+              context.state.isLoading = false
+              resolve(response)
+            } else {
+              context.commit('setPagination', response.data.pagination)
+              context.commit('setMenus', response.data.data)
+              context.state.isLoading = false
+              resolve(response)
+            }
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
     },
     addToCart (context, data) {
       const checkProduk = context.state.carts.filter((item) => {

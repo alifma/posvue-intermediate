@@ -46,7 +46,7 @@
       </div>
       <!-- End Search and Sort Combo -->
       <!-- Start Menus Has Data -->
-      <div class="row ml-2" v-if="menus" style="width:100%">
+      <div class="row ml-2" v-if="menus.length != undefined" style="width:100%">
         <div class="col-lg-4 col-md-4 col-sm-6 mb-3" style="height:min-content" v-for="item in menus" :key="item.id">
           <div :id="'menuCard'+item.id" class="card menuCard bg-transparent border-0">
             <div class="card-image" @click="setClicked(item);addToCart(item)" :class="{clicked: item.isClicked}">
@@ -75,8 +75,8 @@
       </div>
       <!-- End Menus Has Data -->
       <!-- Start Menus No Data -->
-      <div class="row ml-2" v-else style="width:100%">
-        <h1>No Data</h1>
+      <div class="row ml-2 text-center p-4" v-else style="width:100%">
+        <h1 class="w-100">No Result</h1>
       </div>
       <!-- End Menus No Data -->
       <div class="row ml-2 mb-4 text-center" style="width:100%">
@@ -123,9 +123,20 @@ export default {
   },
   methods: {
     ...mapActions({
-      getMenus: 'menus/getMenus',
+      getMenusAPI: 'menus/getMenus',
       addToCart: 'menus/addToCart'
     }),
+    getMenus (data) {
+      this.getMenusAPI(data)
+        .then((response) => {
+          if (response.data.data.length === undefined) {
+            this.alertToast('error', 'No Result')
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     getMenusByName () {
       this.form.page = 1
       this.getMenus(this.form)

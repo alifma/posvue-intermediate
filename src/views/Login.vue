@@ -69,7 +69,12 @@ export default {
         password: this.password
       }
       this.login(data).then((response) => {
-        this.$router.push('/')
+        if (response.data.code === 200) {
+          this.$swal({ icon: 'success', title: 'Login Success' })
+          this.$router.push('/')
+        } else {
+          this.$swal({ icon: 'error', title: 'Login Error', text: response.data.pagination.errorMsg })
+        }
       }).catch((err) => {
         console.log(err)
       })
@@ -82,9 +87,13 @@ export default {
         password: this.password
       }
       this.register(data).then((response) => {
-        console.log(response)
-        this.showRegister = true
-        this.$router.push('/login')
+        if (response.data.code === 200) {
+          this.$swal({ icon: 'success', title: 'Registration Success' })
+          this.toggleRegister()
+        } else {
+          console.log(response)
+          this.$swal({ icon: 'error', title: 'Registration Error', text: response.data.pagination.errorMsg })
+        }
       }).catch((err) => {
         console.log(err)
       })
