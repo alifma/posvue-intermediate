@@ -114,6 +114,22 @@ const moduleMenus = {
         context.commit('checkClicked')
       }
     },
+    postCart (context, data) {
+      const fixData = context.state.carts.map((item) => ({
+        ...item,
+        cashier: data.cashier,
+        inv: data.invoices
+      }))
+      return new Promise((resolve, reject) => {
+        axios.post(`${context.state.apiURL}/orders`, fixData, { headers: { token: context.rootState.auth.token } })
+          .then((response) => {
+            resolve(response)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
     addQty (context, data) {
       context.commit('addQty', data)
     },
@@ -122,20 +138,6 @@ const moduleMenus = {
     },
     clearCarts (context) {
       context.commit('clearCarts')
-    },
-    postCart (context, data) {
-      const fixData = context.state.carts.map((item) => ({
-        ...item,
-        cashier: data.cashier,
-        inv: data.invoices
-      }))
-      axios.post(`${context.state.apiURL}/orders`, fixData, { headers: { token: context.rootState.auth.token } })
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
     }
   }
 }

@@ -41,13 +41,13 @@
           <p style="font-size: 12px;">*Belum termasuk PPN</p>
           <!-- Input Name & Cashier -->
           <div class="input-group mb-3">
-            <input type="text" class="form-control mr-1" required v-model="trans.cashier" placeholder="Cashier Name">
+            <input type="text" class="form-control mr-1" required v-model="trans.cashier" :placeholder="trans.cashier" readonly>
             <input type="number" class="form-control ml-1" required v-model="trans.invoices" placeholder="Invoices">
           </div>
           <!-- End Input Name & Cashier -->
           <button class="btn btn-blue d-block mb-2" style="width:100%" @click="checkout()"
             type="submit">Checkout</button>
-          <a href="#" class="btn btn-pink d-block" @click="cancelCart()" style="width:100%">Cancel</a>
+          <a href="#" class="btn btn-pink d-block" @click="cancelCart('Cart has been cleaned')" style="width:100%">Cancel</a>
         </div>
         <!-- End Checkout Option -->
       </div>
@@ -89,10 +89,10 @@
         <!-- Checkout Footer -->
         <div slot="footer">
           <button class="btn btn-pink font-weight-bolder d-block mb-2"
-            @click="postCart();cancelCart();showCheckoutModal = false" style="width:100%">Print</button>
+            @click="postCart();" style="width:100%">Print</button>
           <p class="mb-0 font-weight-bold text-center">Or</p>
           <button class="btn btn-blue font-weight-bolder d-block"
-            @click="postCart();cancelCart();showCheckoutModal = false" style="width:100%">SendEmail</button>
+            @click="postCart();" style="width:100%">SendEmail</button>
         </div>
       </modal>
       <!-- End Modal Checkout -->
@@ -125,11 +125,11 @@ export default {
       clearCarts: 'menus/clearCarts',
       postCarts: 'menus/postCart'
     }),
-    cancelCart () {
+    cancelCart (msg) {
       this.clearCarts()
-      this.trans.cashier = ''
+      this.trans.cashier = this.cashier
       this.trans.invoices = 0
-      this.alertToast('success', 'Chart has been cleaned')
+      this.alertToast('success', msg)
     },
     checkout () {
       if (this.trans.cashier === '' || this.trans.invoices === 0) {
@@ -141,16 +141,36 @@ export default {
       }
     },
     postCart () {
-      // this.alertToast('error', 'Please Fill All Data')
       this.postCarts(this.trans)
+        .then((response) => {
+          if (response.data.code === 200) {
+            this.clearCarts()
+            this.trans.cashier = this.cashier
+            this.trans.invoices = 0
+            this.alertToast('success', 'Order data success')
+          } else {
+            this.clearCarts()
+            this.trans.cashier = this.cashier
+            this.trans.invoices = 0
+            this.alertToast('error', response.data.msg)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      this.showCheckoutModal = false
     }
   },
   computed: {
     ...mapGetters({
       carts: 'menus/carts',
       totalPrice: 'menus/totalPrice',
-      ppn: 'menus/ppn'
+      ppn: 'menus/ppn',
+      cashier: 'auth/getCashier'
     })
+  },
+  mounted () {
+    this.trans.cashier = this.cashier
   }
 }
 </script>

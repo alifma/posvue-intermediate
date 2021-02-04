@@ -3,17 +3,22 @@ const moduleAuth = {
   namespaced: true,
   state: () => {
     return {
-      token: localStorage.getItem('token') || null
+      token: localStorage.getItem('token') || null,
+      cashier: ''
     }
   },
   getters: {
     getToken (state) {
       return state.token
-    }
+    },
+    getCashier: state => state.cashier
   },
   mutations: {
     setToken (state, payload) {
       state.token = payload
+    },
+    setCashier (state, payload) {
+      state.cashier = payload
     }
   },
   actions: {
@@ -23,6 +28,7 @@ const moduleAuth = {
           if (response.data.code === 200) {
             localStorage.setItem('token', response.data.pagination.token)
             context.commit('setToken', response.data.pagination.token)
+            context.commit('setCashier', response.data.pagination.name)
             resolve(response)
           } else {
             resolve(response)
@@ -36,6 +42,7 @@ const moduleAuth = {
       return new Promise((resolve) => {
         localStorage.removeItem('token')
         context.commit('setToken', null)
+        context.commit('setCashier', '')
         resolve(true)
       })
     },

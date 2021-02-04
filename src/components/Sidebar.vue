@@ -68,7 +68,9 @@
 <script>
 // import modal from '@/components/Modal.vue'
 import { mapActions } from 'vuex'
+import { posvueMixin } from '../helper/mixin'
 export default {
+  mixins: [posvueMixin],
   name: 'Sidebar',
   methods: {
     ...mapActions({
@@ -77,10 +79,10 @@ export default {
     onLogout () {
       this.logout().then((response) => {
         if (response) {
-          this.$swal({ icon: 'success', title: 'Logout Success' })
+          this.alertToast('success', 'Logout Success')
           this.$router.push('/login')
         } else {
-          alert('gagal logout check code anda')
+          this.alertToast('error', 'Something went wrong')
         }
       })
     }

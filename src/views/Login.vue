@@ -37,7 +37,10 @@
           <div class="overlay-panel overlay-right">
             <img src="https://posvue-alifma.netlify.app/img/i-empty.png" alt="">
             <h1>POS Vue</h1>
-            <p>Point of Sales Application Using Vue.JS Framework</p>
+            <p class="mb-4">Point of Sales Application Using Vue.JS Framework</p>
+            <p style="font-weight:bold">Demo User</p>
+            <p><b>Admin : </b>admin@posvue.com (password)</p>
+            <p><b>Cashier : </b>cashier@posvue.com (password)</p>
           </div>
         </div>
       </div>
@@ -47,7 +50,9 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { posvueMixin } from '../helper/mixin'
 export default {
+  mixins: [posvueMixin],
   name: 'Login',
   data () {
     return {
@@ -70,7 +75,7 @@ export default {
       }
       this.login(data).then((response) => {
         if (response.data.code === 200) {
-          this.$swal({ icon: 'success', title: 'Login Success' })
+          this.alertToast('success', 'System Login Success')
           this.$router.push('/')
         } else {
           this.$swal({ icon: 'error', title: 'Login Error', text: response.data.pagination.errorMsg })
@@ -129,9 +134,8 @@ export default {
   p {
     font-size: 14px;
     font-weight: 100;
-    line-height: 20px;
     letter-spacing: 0.5px;
-    margin: 20px 0 30px;
+    margin-bottom:0px;
   }
 
   span {
