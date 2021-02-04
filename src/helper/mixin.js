@@ -6,14 +6,10 @@ export const posvueMixin = {
       baseURL: 'http://52.91.116.102:3000',
       Toast: Swal.mixin({
         toast: true,
-        position: 'top-end',
+        position: 'top',
         showConfirmButton: false,
         timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener('mouseenter', Swal.stopTimer)
-          toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
+        timerProgressBar: true
       }),
       form: {
         searchName: '',

@@ -35,10 +35,59 @@
               <div class="card mb-3">
                 <h4 class="card-header font-weight-bold">Change Data</h4>
                 <div class="card-body">
-                  <div class="form-group">
-                    <label for="exampleFormControlInput1" class="font-weight-bold">Menu Name</label>
-                    <input type="text" class="form-control" v-model="hold.name" :placeholder="details.name">
-                  </div>
+                  <form action="" @submit.prevent="onUpdate(details.id)">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1" class="font-weight-bold">Menu Name</label>
+                      <input type="text" class="form-control" v-model="hold.name" :placeholder="details.name">
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col">
+                          <label for="exampleFormControlInput1" class="font-weight-bold">Menu Price</label>
+                          <input type="number" class="form-control" v-model="hold.price" :placeholder="details.price">
+                        </div>
+                        <div class="col">
+                          <label for="exampleFormControlSelect2" class="font-weight-bold">Category</label>
+                          <b-form-select v-model="hold.category_id" :options="categories">{{details.category_id}}
+                          </b-form-select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col">
+                          <label for="exampleFormControlInput1" class="font-weight-bold">Image</label>
+                          <input type="file" class="form-control" @change="processFile($event)" style="line-height:20px"
+                            :placeholder="details.image">
+                        </div>
+                        <div class="col">
+                          <label for="exampleFormControlInput1" class="font-weight-bold">Status</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text">
+                                <input type="checkbox" v-model="hold.isReady" aria-label="Checkbox for following text input">
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" readonly placeholder="Ready">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group mt-4">
+                      <div class="row">
+                        <div class="col">
+                          <button class="btn-blue btn w-100 font-weight-bold" type="submit">
+                            <b-icon icon="pencil"></b-icon> Update
+                          </button>
+                        </div>
+                        <div class="col">
+                          <a class="btn btn-pink btn w-100 font-weight-bold" @click="confirmDelete(details.id)">
+                            <b-icon icon="trash"></b-icon> Delete
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -62,10 +111,12 @@ export default {
     return {
       id: this.$route.params.id,
       hold: {
+        id: this.$route.params.id,
         name: '',
         price: '',
         image: '',
-        category: ''
+        category_id: 1,
+        isReady: 1
       }
     }
   },
@@ -75,21 +126,92 @@ export default {
   },
   methods: {
     ...mapActions({
-      actionGetDetails: 'menus/getDetails'
+      actionGetDetails: 'menus/getDetails',
+      actionUpdate: 'menus/updateMenus',
+      deleteMenus: 'menus/deleteMenus'
     }),
     getDetails () {
       this.actionGetDetails(this.id)
-        .then(() => {
-          console.log('Display Detail Success')
+        .then((response) => {
+          this.hold.name = response.name
+          this.hold.price = response.price
+          this.hold.category_id = response.category_id
+          this.hold.image = response.image
+          this.hold.isReady = response.isReady
         })
         .catch((err) => {
           console.log(err)
         })
+    },
+    buildUpdateData (msg) {
+      const fd = new FormData()
+      fd.append('name', this.hold.name)
+      fd.append('price', this.hold.price)
+      fd.append('category_id', this.hold.category_id)
+      fd.append('isReady', this.hold.isReady)
+      fd.append('image', this.hold.image)
+      const fixData = {
+        id: this.id,
+        fd
+      }
+      this.actionUpdate(fixData)
+        .then((response) => {
+          if (response.data.code === 200) {
+            this.alertToast('success', msg)
+            this.getDetails()
+            // this.showAddModal = false
+          } else {
+            this.alertToast('error', response.data.msg)
+            // this.showAddModal = false
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    onUpdate () {
+      if (this.hold.isReady === false) {
+        this.hold.isReady = 0
+        this.buildUpdateData('Soft Delete Success')
+        this.$router.push('/')
+      } else {
+        this.hold.isReady = 1
+        this.buildUpdateData('Update Menu Success')
+      }
+    },
+    processFile (el) {
+      this.hold.image = el.target.files[0]
+    },
+    confirmDelete (id) {
+      this.$swal({
+        title: 'Delete this menu?',
+        text: 'Are you sure?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#57cad5',
+        confirmButtonText: 'Confirm',
+        cancelButtonColor: '#f24f8a',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.value) {
+          this.deleteMenus(this.id)
+            .then((response) => {
+              if (response.data.code === 200) {
+                this.alertToast('success', 'Delete Menu Success')
+                this.$router.push('/')
+              } else {
+                this.alertToast('error', response.data.msg)
+              }
+            })
+            .catch((err) => { console.log(err) })
+        }
+      })
     }
   },
   computed: {
     ...mapGetters({
-      details: 'menus/details'
+      details: 'menus/details',
+      categories: 'categories/categories'
     })
   },
   mounted () {

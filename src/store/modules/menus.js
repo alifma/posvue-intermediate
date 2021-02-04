@@ -166,6 +166,28 @@ const moduleMenus = {
             reject(err)
           })
       })
+    },
+    updateMenus (context, data) {
+      return new Promise((resolve, reject) => {
+        axios.patch(`${context.state.apiURL}/menus/${data.id}`, data.fd, { headers: { token: context.rootState.auth.token } })
+          .then((response) => {
+            resolve(response)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    deleteMenus (context, id) {
+      return new Promise((resolve, reject) => {
+        axios.delete(`${context.state.apiURL}/menus/${id}`, { headers: { token: context.rootState.auth.token } })
+          .then((response) => {
+            resolve(response)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
     }
   }
 }

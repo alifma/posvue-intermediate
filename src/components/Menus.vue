@@ -66,7 +66,7 @@
                   <h4 class="card-text menuPrice font-weight-bold" style="text-align:left">Rp. {{formatPrice(item.price)}}</h4>
                 </div>
                 <div class="col-4 my-auto" style="text-align:right">
-                  <router-link :to="'/menus/'+item.id" class="btn-success btn">Detail</router-link>
+                  <router-link :to="'/menus/'+item.id" class="btn-blue btn">Detail</router-link>
                 </div>
               </div>
             </div>

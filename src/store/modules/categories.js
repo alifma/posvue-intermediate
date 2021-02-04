@@ -5,7 +5,7 @@ const moduleCategories = {
   state: () => {
     return {
       apiURL: process.env.VUE_APP_APIURL,
-      categories: ''
+      categories: []
     }
   },
   getters: {
