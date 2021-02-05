@@ -21,13 +21,27 @@
     <!-- Start Menus -->
     <div v-else class="w-100">
       <!-- Start Search and Sort Combo -->
-      <div id="top" class="row ml-2 mb-4" style="width:100%">
+      <div id="top" v-show="searchBarStatus"  class="row ml-2 mb-4" style="width:100%">
         <!-- Search Bar -->
       <div class="col-sm-6">
-          <div v-show="searchBarStatus" class="form-inline">
-            <input class="form-control mr-sm-2" type="search" v-model="form.searchName" @keyup="getMenusByName" placeholder="Search">
+        <div class="row" >
+          <div class="col form-inline">
+            <input class="form-control mr-sm-2" type="search" v-model="form.searchName" @keyup="getMenusByName"
+              placeholder="Search">
           </div>
+          <div class="col">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="checkbox" v-model="form.ready" @change="getMenusByName"
+                      aria-label="Checkbox for following text input">
+                  </div>
+                </div>
+                <input type="text" class="form-control" readonly placeholder="Ready">
+              </div>
+            </div>
         </div>
+      </div>
         <!-- End SearchBar -->
         <!-- Start Sort By-->
         <div class="col-sm-6 d-inline-flex">

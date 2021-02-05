@@ -77,6 +77,11 @@ const moduleMenus = {
   },
   actions: {
     getMenus (context, data) {
+      if (data.ready === 1 || data.ready === true) {
+        data.ready = 1
+      } else {
+        data.ready = 0
+      }
       return new Promise((resolve, reject) => {
         axios.get(`${context.state.apiURL}/menus?name=${data.searchName}&limit=${data.limit}&order=${data.order}&sort=${data.sort}&ready=${data.ready}&page=${data.page}`, { headers: { token: context.rootState.auth.token } })
           .then((response) => {
