@@ -1,27 +1,41 @@
 <template>
- <div class="history">
-    <Navbar navpage='history' navtitle='History' />
-    <div class="container-fluid px-0">
-      <div class="row mx-0">
-        <div id="main" class="col-lg-8 pt-0 pb-0 pl-0 mb-0 pr-4 d-flex " style="width:100%">
-          <Sidebar />
-          <!-- Menu Tiles -->
-          <h1>Test</h1>
+  <div id="history">
+    <Navbar navpage="history" navtitle="History" />
+    <div class="row mx-0" style="width:100%">
+      <div id="main" class="p0 d-flex w-100">
+        <Sidebar />
+        <!-- <div class="text-center p-4 m-4 w-100" v-if="isLoading">
+          <div class="d-flex justify-content-center w-100">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <h5 class="mt-4">Fetching Data</h5>
+        </div> -->
+        <div class="MainContent p-3" style="width:100vw">
+          <CardIncome />
+          <Revenue />
+          <!-- <RecentOrder /> -->
+          <!-- <Categories /> -->
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Navbar from '@/components/Navbar'
 import Sidebar from '@/components/Sidebar'
+import Revenue from '@/components/Revenue'
+import CardIncome from '@/components/CardIncome'
 export default {
   name: 'History',
   components: {
     Navbar,
-    Sidebar
+    Sidebar,
+    Revenue,
+    CardIncome
   },
   methods: {
   }
