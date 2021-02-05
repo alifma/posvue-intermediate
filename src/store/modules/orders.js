@@ -22,7 +22,8 @@ const moduleOrders = {
         totalResult: 0,
         yesterdayIncome: 0
       },
-      details: []
+      details: [],
+      isLoading: false
     }
   },
   getters: {
@@ -34,7 +35,8 @@ const moduleOrders = {
     },
     detailsPPN (state) {
       return state.details.reduce((a, b) => a + b.amount * b.price, 0) * 0.1
-    }
+    },
+    isLoading: state => state.isLoading
   },
   mutations: {
     setOrders (state, payload) {
@@ -66,13 +68,16 @@ const moduleOrders = {
       })
     },
     getDetails (context, inv) {
+      context.state.isLoading = true
       return new Promise((resolve, reject) => {
         axios.get(`${context.state.apiURL}/orders/${inv}`, { headers: { token: context.rootState.auth.token } })
           .then((response) => {
             if (response.data.code === 200) {
               context.commit('setDetails', response.data.data)
+              context.state.isLoading = false
               resolve(response.data)
             } else {
+              context.state.isLoading = false
               resolve(response.data)
             }
           })

@@ -1,5 +1,46 @@
 <template>
   <div class="row pt-4 mx-0" style="height:min-content;width:100%">
+    <!-- Start Search and Sort Combo -->
+    <div id="top" v-show="searchBarStatus" class="row ml-2 mb-4" style="width:100%">
+      <!-- Search Bar -->
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-6">
+            <input class="form-control mr-sm-2" type="search" v-model="form.searchName" @keyup="getMenusByName"
+              placeholder="Search">
+          </div>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="checkbox" v-model="form.ready" @change="getMenusByName"
+                    aria-label="Checkbox for following text input">
+                </div>
+              </div>
+              <input type="text" class="form-control" readonly placeholder="Ready">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End SearchBar -->
+      <!-- Start Sort By-->
+      <div class="col-sm-6 d-inline-flex">
+        <select class="custom-select float-right" v-model="form.order" @change="changeOrderSort()">
+          <option value="created_at">Added</option>
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+          <option value="category">Category</option>
+        </select>
+        <select class="custom-select float-right" v-model="form.sort" @change="changeOrderSort()">
+          <option value="asc"> Ascending <b-icon icon="sort-alpha-down"></b-icon>
+          </option>
+          <option value="desc"> Descending <b-icon icon="sort-alpha-up"></b-icon>
+          </option>
+        </select>
+      </div>
+      <!-- End Sort By-->
+    </div>
+    <!-- End Search and Sort Combo -->
     <!-- Start Loading Spinner -->
     <div class="text-center p-4 m-4 w-100" v-if="isLoading">
       <div class="d-flex justify-content-center w-100">
@@ -20,45 +61,6 @@
     <!-- End Disconnected -->
     <!-- Start Menus -->
     <div v-else class="w-100">
-      <!-- Start Search and Sort Combo -->
-      <div id="top" v-show="searchBarStatus"  class="row ml-2 mb-4" style="width:100%">
-        <!-- Search Bar -->
-      <div class="col-sm-6">
-        <div class="row" >
-          <div class="col form-inline">
-            <input class="form-control mr-sm-2" type="search" v-model="form.searchName" @keyup="getMenusByName"
-              placeholder="Search">
-          </div>
-          <div class="col">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <input type="checkbox" v-model="form.ready" @change="getMenusByName"
-                      aria-label="Checkbox for following text input">
-                  </div>
-                </div>
-                <input type="text" class="form-control" readonly placeholder="Ready">
-              </div>
-            </div>
-        </div>
-      </div>
-        <!-- End SearchBar -->
-        <!-- Start Sort By-->
-        <div class="col-sm-6 d-inline-flex">
-          <select class="custom-select float-right" v-model="form.order" @change="changeOrderSort()">
-            <option value="created_at">Added</option>
-            <option value="name">Name</option>
-            <option value="price">Price</option>
-            <option value="category">Category</option>
-          </select>
-          <select class="custom-select float-right" v-model="form.sort" @change="changeOrderSort()">
-            <option value="asc"> Ascending <b-icon icon="sort-alpha-down"></b-icon></option>
-            <option value="desc"> Descending <b-icon icon="sort-alpha-up"></b-icon></option>
-          </select>
-        </div>
-        <!-- End Sort By-->
-      </div>
-      <!-- End Search and Sort Combo -->
       <!-- Start Menus Has Data -->
       <div class="row ml-2" v-if="menus.length != undefined" style="width:100%">
         <div class="col-lg-4 col-md-4 col-sm-6 mb-3" style="height:min-content" v-for="item in menus" :key="item.id">
@@ -77,7 +79,8 @@
               <h4 class="card-title menuName mb-0" style="text-align:left">{{item.name}}</h4>
               <div class="row pl-0">
                 <div class="col-8">
-                  <h4 class="card-text menuPrice font-weight-bold" style="text-align:left">Rp. {{formatPrice(item.price)}}</h4>
+                  <h4 class="card-text menuPrice font-weight-bold" style="text-align:left">Rp.
+                    {{formatPrice(item.price)}}</h4>
                 </div>
                 <div class="col-4 my-auto" style="text-align:right">
                   <router-link :to="'/menus/'+item.id" class="btn-blue btn">Detail</router-link>
@@ -93,7 +96,8 @@
         <h1 class="w-100">No Result</h1>
       </div>
       <!-- End Menus No Data -->
-      <div class="row ml-2 mb-4 text-center" style="width:100%">
+    </div>
+    <div class="row ml-2 mb-4 text-center" style="width:100%">
         <!-- Start Pagination -->
         <div class="w-100">
           <h5 class="mb-0 d-inline font-weight-bold">Select Page: </h5>
@@ -104,7 +108,6 @@
         </div>
         <!-- End Pagination -->
       </div>
-    </div>
     <!-- End Mennus-->
   </div>
 </template>

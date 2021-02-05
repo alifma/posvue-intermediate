@@ -77,6 +77,7 @@ const moduleMenus = {
   },
   actions: {
     getMenus (context, data) {
+      context.state.isLoading = true
       if (data.ready === 1 || data.ready === true) {
         data.ready = 1
       } else {

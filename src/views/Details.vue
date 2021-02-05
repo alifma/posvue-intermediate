@@ -131,6 +131,7 @@ export default {
       deleteMenus: 'menus/deleteMenus'
     }),
     getDetails () {
+      this.swalLoading('Fetching Data')
       this.actionGetDetails(this.id)
         .then((response) => {
           this.hold.name = response.name
@@ -138,8 +139,10 @@ export default {
           this.hold.category_id = response.category_id
           this.hold.image = response.image
           this.hold.isReady = response.isReady
+          this.$swal.close()
         })
         .catch((err) => {
+          this.$swal.close()
           console.log(err)
         })
     },

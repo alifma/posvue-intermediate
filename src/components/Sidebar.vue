@@ -97,12 +97,25 @@ export default {
       getMenusAPI: 'menus/getMenus'
     }),
     onLogout () {
-      this.logout().then((response) => {
-        if (response) {
-          this.alertToast('success', 'Logout Success')
-          this.$router.push('/login')
-        } else {
-          this.alertToast('error', 'Something went wrong')
+      this.$swal({
+        title: 'Logout',
+        text: 'Area you sure?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#57cad5',
+        confirmButtonText: 'Confirm',
+        cancelButtonColor: '#f24f8a',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.value) {
+          this.logout().then((response) => {
+            if (response) {
+              this.alertToast('success', 'Logout Success')
+              this.$router.push('/login')
+            } else {
+              this.alertToast('error', 'Something went wrong')
+            }
+          })
         }
       })
     },

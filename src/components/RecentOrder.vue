@@ -70,7 +70,15 @@
         <p style="font-size: 12px;" class="mb-0 font-weight-bold">Cashier: {{details[0].cashier}}</p>
       </div>
       <div slot="body" style="max-height:50vh;overflow-y:scroll">
-        <table class="p-0 table table-borderless mt-4" style="width:100%;">
+        <div class="text-center" v-if="isLoading">
+          <div class="d-flex justify-content-center w-100">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <h5 class="mt-4">Fetching Data</h5>
+        </div>
+          <table v-else class="p-0 table table-borderless mt-4" style="width:100%;">
           <tbody>
             <tr v-for="item in details" :key="item.id" class="mb-3" style="width:100%">
               <td style="width:70%" class="pb-0 font-weight-bold">{{item.menu}} {{item.amount}}x</td>
@@ -145,6 +153,7 @@ export default {
       this.getOrders(this.order)
     },
     getDetails (inv) {
+      this.showDetailModal = true
       this.actionDetails(inv)
         .then((response) => {
           if (response.code === 200) {
@@ -189,7 +198,8 @@ export default {
       pagination: 'orders/pagination',
       details: 'orders/details',
       detailsTotal: 'orders/detailsTotal',
-      detailsPPN: 'orders/detailsPPN'
+      detailsPPN: 'orders/detailsPPN',
+      isLoading: 'orders/isLoading'
     })
   },
   mounted () {
