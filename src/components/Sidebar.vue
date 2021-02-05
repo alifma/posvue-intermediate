@@ -21,7 +21,7 @@
         <h5 class="modal-title font-weight-bolder">Add Item</h5>
       </div>
       <div slot="body">
-        <form action="" @submit.prevent="onSubmit()">
+        <form action="" @submit.prevent="onSubmit()" autocomplete="off" >
           <div class="mb-3 row">
             <label for="inputName" class="col-sm-3 col-form-label font-weight-bold">Name</label>
             <div class="col-sm-9">
@@ -115,6 +115,8 @@ export default {
       this.newForm.image = el.target.files[0]
     },
     onSubmit () {
+      this.swalLoading('Uploading Data')
+      this.showAddModal = false
       const fd = new FormData()
       fd.append('name', this.newForm.name)
       fd.append('price', this.newForm.price)
@@ -123,12 +125,18 @@ export default {
       this.actionPost(fd)
         .then((response) => {
           if (response.data.code === 200) {
+            this.$swal.close()
             this.alertToast('success', response.data.msg)
+            this.newForm = {
+              name: '',
+              price: '',
+              category_id: 1,
+              image: ''
+            }
             this.getMenusAPI(this.form)
-            this.showAddModal = false
           } else {
+            this.$swal.close()
             this.alertToast('error', response.data.msg)
-            this.showAddModal = false
           }
         })
         .catch((err) => {

@@ -37,6 +37,16 @@ export const posvueMixin = {
         icon,
         title
       })
+    },
+    swalLoading (title) {
+      this.$swal.fire({
+        title: title,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+          this.$swal.showLoading()
+        }
+      })
     }
   }
 }

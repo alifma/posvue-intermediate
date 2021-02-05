@@ -69,18 +69,22 @@ export default {
       register: 'auth/register'
     }),
     checkLogin () {
+      this.swalLoading('Signing in ...')
       const data = {
         email: this.email,
         password: this.password
       }
       this.login(data).then((response) => {
         if (response.data.code === 200) {
+          this.$swal.close()
           this.alertToast('success', 'System Login Success')
           this.$router.push('/')
         } else {
+          this.$swal.close()
           this.$swal({ icon: 'error', title: 'Login Error', text: response.data.pagination.errorMsg })
         }
       }).catch((err) => {
+        this.$swal.close()
         console.log(err)
       })
     },

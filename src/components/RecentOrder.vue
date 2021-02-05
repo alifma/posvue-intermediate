@@ -40,7 +40,7 @@
             <td class="text-center">{{element.cashier}}</td>
             <td class="text-center">{{(new Date(element.created_at).toLocaleDateString())}}</td>
             <td class="text-center"><div style="max-height:10vh;overflow-y:scroll">{{element.orders}}</div></td>
-            <td class="text-center">Rp. {{formatPrice(element.total?element.total:0)}}</td>
+            <td class="text-center">Rp. {{formatPrice(element.total?element.total*1.1:0)}}</td>
             <td class="text-center"><button @click="getDetails(element.inv)"
                 class="btn-sm btn btn-warning mr-1">
                 <b-icon icon="eye"></b-icon>
@@ -59,15 +59,66 @@
         </div>
       </div>
     </div>
+    <!-- Modal Details -->
+    <modal v-if="showDetailModal" @close="showDetailModal = false">
+      <div slot="header" class="w-100">
+        <div class="d-flex w-auto">
+          <h5 class="modal-title font-weight-bolder">Details</h5>
+          <p class="font-weight-bold w-100 mb-0 float-right" style="text-align:right">Receipt no:#{{details[0].inv}}
+          </p>
+        </div>
+        <p style="font-size: 12px;" class="mb-0 font-weight-bold">Cashier: {{details[0].cashier}}</p>
+      </div>
+      <div slot="body" style="max-height:50vh;overflow-y:scroll">
+        <table class="p-0 table table-borderless mt-4" style="width:100%;">
+          <tbody>
+            <tr v-for="item in details" :key="item.id" class="mb-3" style="width:100%">
+              <td style="width:70%" class="pb-0 font-weight-bold">{{item.menu}} {{item.amount}}x</td>
+              <td style="text-align:right; width:30%" class="pb-0 font-weight-bold">Rp.
+                {{formatPrice(item.price*item.amount)}}</td>
+            </tr>
+            <tr>
+              <td class="font-weight-bold pb-0">PPN 10%</td>
+              <td style="text-align:right" class="font-weight-bold pb-0">Rp.{{formatPrice(detailsPPN)}}</td>
+            </tr>
+            <tr>
+              <td style="text-align:right" class="font-weight-bold pb-0">Total :</td>
+              <td style="text-align:right" class="font-weight-bold pb-0">
+                Rp.{{formatPrice(detailsTotal+detailsPPN)}}
+              </td>
+            </tr>
+            <tr>
+              <td class="font-weight-bold pb-0">Payment : Cash</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Checkout Footer -->
+      <div slot="footer">
+        <button class="btn btn-pink font-weight-bolder d-block mb-2" @click="showDetailModal = false"
+          style="width:100%">Close</button>
+      </div>
+    </modal>
+    <!-- End Modal Details -->
   </div>
 </template>
 
 <script>
 import { posvueMixin } from '../helper/mixin'
 import { mapActions, mapGetters } from 'vuex'
+import Modal from '../components/Modal'
 export default {
   name: 'RecentOrder',
   mixins: [posvueMixin],
+  data () {
+    return {
+      showDetailModal: false
+    }
+  },
+  components: {
+    Modal
+  },
   methods: {
     ...mapActions({
       actionOrder: 'orders/getOrders',
@@ -97,7 +148,7 @@ export default {
       this.actionDetails(inv)
         .then((response) => {
           if (response.code === 200) {
-            this.alertToast('success', response.data)
+            this.showDetailModal = true
           } else {
             this.alertToast('error', response.msg)
           }
@@ -135,7 +186,10 @@ export default {
   computed: {
     ...mapGetters({
       orders: 'orders/orders',
-      pagination: 'orders/pagination'
+      pagination: 'orders/pagination',
+      details: 'orders/details',
+      detailsTotal: 'orders/detailsTotal',
+      detailsPPN: 'orders/detailsPPN'
     })
   },
   mounted () {

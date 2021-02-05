@@ -141,15 +141,18 @@ export default {
       }
     },
     postCart () {
+      this.swalLoading('Submitting Order ...')
       this.postCarts(this.trans)
         .then((response) => {
           if (response.data.code === 200) {
             this.clearCarts()
+            this.$swal.close()
             this.trans.cashier = this.cashier
             this.trans.invoices = 0
             this.alertToast('success', 'Order data success')
           } else {
             this.clearCarts()
+            this.$swal.close()
             this.trans.cashier = this.cashier
             this.trans.invoices = 0
             this.alertToast('error', response.data.msg)

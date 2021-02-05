@@ -28,7 +28,13 @@ const moduleOrders = {
   getters: {
     orders: state => state.orders,
     pagination: state => state.pagination,
-    details: state => state.details
+    details: state => state.details,
+    detailsTotal (state) {
+      return state.details.reduce((a, b) => a + b.amount * b.price, 0)
+    },
+    detailsPPN (state) {
+      return state.details.reduce((a, b) => a + b.amount * b.price, 0) * 0.1
+    }
   },
   mutations: {
     setOrders (state, payload) {
