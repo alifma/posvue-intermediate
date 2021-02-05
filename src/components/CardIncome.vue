@@ -6,8 +6,8 @@
         <div id="card1" class="card p-4 h-100">
           <div class="card-body d-flex flex-column justify-content-center">
             <p class="card-text mb-1 font-weight-bold" style="font-size:12px">Today's Income</p>
-            <h5 class="card-title mb-0 font-weight-bolder">Rp. {{formatPrice(todaysIncome)}}</h5>
-            <p class="card-text mb-1 font-weight-bold" style="font-size:12px">+{{pagination.gainIncome}}% Yesterday</p>
+            <h5 class="card-title mb-0 font-weight-bolder">Rp. {{formatPrice(incomeData.todaysIncome)}}</h5>
+            <p class="card-text mb-1 font-weight-bold" style="font-size:12px">{{Number(incomeData.gainIncome) > 0 ? '+' + Number(incomeData.gainIncome) : Number(incomeData.gainIncome)}}% Yesterday</p>
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips1">
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips2">
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips3">
@@ -19,8 +19,8 @@
         <div id="card2" class="card p-4 h-100">
           <div class="card-body d-flex flex-column justify-content-center">
             <p class="card-text mb-1 font-weight-bold" style="font-size:12px">Orders</p>
-            <h5 class="card-title mb-0 font-weight-bolder">{{pagination.totalInvoices}}</h5>
-            <p class="card-text mb-1 font-weight-bold" style="font-size:12px">+{{pagination.gainOrders}}% Last Week</p>
+            <h5 class="card-title mb-0 font-weight-bolder">{{incomeData.thisWeekOrders}}</h5>
+            <p class="card-text mb-1 font-weight-bold" style="font-size:12px">{{Number(incomeData.gainOrders) > 0 ? '+' + Number(incomeData.gainOrders) : Number(incomeData.gainOrders)}}% Last Week</p>
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips1">
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips2">
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips3">
@@ -32,7 +32,7 @@
         <div id="card3" class="card p-4 h-100">
           <div class="card-body d-flex flex-column justify-content-center">
             <p class="card-text mb-1 font-weight-bold" style="font-size:12px">This Year's Income</p>
-            <h5 class="card-title mb-0 font-weight-bolder">Rp. {{formatPrice(allIncome)}}</h5>
+            <h5 class="card-title mb-0 font-weight-bolder">Rp. {{formatPrice(incomeData.totalIncome)}}</h5>
             <p class="card-text mb-1 font-weight-bold" style="font-size:12px">+10% Last Year</p>
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips1">
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips2">
@@ -46,20 +46,21 @@
 
 <script>
 import { posvueMixin } from '../helper/mixin'
+import { mapGetters } from 'vuex'
 export default {
   mixins: [posvueMixin],
   name: 'CardIncome',
   data () {
     return {
-      allIncome: 100000000,
-      todaysIncome: 500000,
-      pagination: {
-        todaysIncome: 50000,
-        gainIncome: 20,
-        gainOrder: 15,
-        totalInvoices: 15
-      }
     }
+  },
+  computed: {
+    ...mapGetters({
+      incomeData: 'orders/pagination'
+    })
+  },
+  mounted () {
+    console.log(this.incomeData)
   }
 }
 </script>

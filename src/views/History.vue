@@ -15,7 +15,7 @@
         <div class="MainContent p-3" style="width:100vw">
           <CardIncome />
           <Revenue />
-          <!-- <RecentOrder /> -->
+          <RecentOrder />
           <!-- <Categories /> -->
         </div>
       </div>
@@ -29,13 +29,15 @@ import Navbar from '@/components/Navbar'
 import Sidebar from '@/components/Sidebar'
 import Revenue from '@/components/Revenue'
 import CardIncome from '@/components/CardIncome'
+import RecentOrder from '@/components/RecentOrder'
 export default {
   name: 'History',
   components: {
     Navbar,
     Sidebar,
     Revenue,
-    CardIncome
+    CardIncome,
+    RecentOrder
   },
   methods: {
   }

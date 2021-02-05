@@ -18,6 +18,12 @@ export const posvueMixin = {
         order: 'created_at',
         sort: 'asc',
         ready: 1
+      },
+      order: {
+        range: 'year',
+        limit: '5',
+        sort: 'desc',
+        page: 1
       }
     }
   },
