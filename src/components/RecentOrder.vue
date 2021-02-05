@@ -77,7 +77,7 @@ export default {
     getOrders (data) {
       this.actionOrder(data)
         .then((response) => {
-          if (response.code !== 200) {
+          if (response.code === 400) {
             this.alertToast('error', 'No Order')
           }
         })
@@ -99,7 +99,7 @@ export default {
           if (response.code === 200) {
             this.alertToast('success', response.data)
           } else {
-            this.alertToast('error', 'No Order')
+            this.alertToast('error', response.msg)
           }
         })
         .catch((err) => {

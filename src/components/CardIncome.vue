@@ -58,9 +58,6 @@ export default {
     ...mapGetters({
       incomeData: 'orders/pagination'
     })
-  },
-  mounted () {
-    console.log(this.incomeData)
   }
 }
 </script>

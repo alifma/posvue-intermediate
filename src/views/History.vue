@@ -16,7 +16,7 @@
           <CardIncome />
           <Revenue />
           <RecentOrder />
-          <!-- <Categories /> -->
+          <Categories />
         </div>
       </div>
     </div>
@@ -30,6 +30,7 @@ import Sidebar from '@/components/Sidebar'
 import Revenue from '@/components/Revenue'
 import CardIncome from '@/components/CardIncome'
 import RecentOrder from '@/components/RecentOrder'
+import Categories from '@/components/Categories'
 export default {
   name: 'History',
   components: {
@@ -37,7 +38,8 @@ export default {
     Sidebar,
     Revenue,
     CardIncome,
-    RecentOrder
+    RecentOrder,
+    Categories
   },
   methods: {
   }
