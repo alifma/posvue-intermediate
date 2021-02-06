@@ -3,16 +3,16 @@
     <div class="bg-white p-0 mr-1" style="position:sticky-left;height:100%" id="sidebar-main">
       <div class="list-group">
         <router-link to="/" class="text-center list-group-item sidebar-item bg-white">
-          <img src="https://i.ibb.co/nLXYpRV/i-menu.png" class="" alt="">
+          <img src="https://i.ibb.co/nLXYpRV/i-menu.png" class="img-fluid" alt="">
         </router-link>
         <router-link to="/history" class=" text-center list-group-item sidebar-item bg-white">
-          <img src="https://i.ibb.co/kmWGqSQ/i-report.png" class="" alt="">
+          <img src="https://i.ibb.co/kmWGqSQ/i-report.png" class="img-fluid" alt="">
         </router-link>
         <a class="text-center list-group-item sidebar-item bg-white" id="show-modal" @click="showAddModal = true">
-          <img src="https://i.ibb.co/4TWDTdZ/i-add.png" class="" alt="">
+          <img src="https://i.ibb.co/4TWDTdZ/i-add.png" class="img-fluid" alt="">
         </a>
          <p @click="onLogout()" class=" text-center list-group-item sidebar-item bg-white">
-          <img src="https://i.ibb.co/zrC703V/i-add-1.png" class="" alt="">
+          <img src="https://i.ibb.co/kMbfJjB/182-1821638-logout-icon-png-red-clipart.png" class="img-fluid" alt="">
         </p>
       </div>
     </div>

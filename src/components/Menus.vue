@@ -66,7 +66,7 @@
         <div class="col-lg-4 col-md-4 col-sm-6 mb-3" style="height:min-content" v-for="item in menus" :key="item.id">
           <div :id="'menuCard'+item.id" class="card menuCard bg-transparent border-0">
             <div class="card-image" @click="setClicked(item);addToCart(item)" :class="{clicked: item.isClicked}">
-              <img :src="`http://52.91.116.102:3000/img/${item.image}`" class="card-img-top menuImg" :alt="item.name">
+              <img :src="`${baseURL}/img/${item.image}`" class="card-img-top menuImg" :alt="item.name">
               <div
                 class="image-overlay text-white-50 text-center h-100 d-flex justify-content-center align-content-center"
                 style="vertical-align:middle">

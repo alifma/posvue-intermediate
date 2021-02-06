@@ -3,7 +3,7 @@ import Swal from 'sweetalert2'
 export const posvueMixin = {
   data () {
     return {
-      baseURL: 'http://52.91.116.102:3000',
+      baseURL: process.env.VUE_APP_APIURL,
       Toast: Swal.mixin({
         toast: true,
         position: 'top',
@@ -61,11 +61,10 @@ export const posvueMixin = {
       })
     },
     scrollTop () {
-      this.currentStep++
       window.scrollTo(0, 0)
     },
     scrollCart () {
-      window.scrollTo(0, 3000)
+      window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight)
     }
   }
 }

@@ -20,7 +20,6 @@
         </div>
       </div>
     </div>
-    <button @click="scrollTop()"> Scrol to Top</button>
   </div>
 </template>
 
