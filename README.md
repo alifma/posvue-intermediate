@@ -1,6 +1,6 @@
 # POS-Vue
 <p align="center">
-![Posvue Logo](./public/mainIcon.png)
+![Posvue Logo](/public/mainIcon.png)
 </p>
 Frontend for Point of Sales Application, connected with [POS-Backend](https://github.com/alifma/pos-backend)
 
