@@ -45,10 +45,10 @@
             <td class="text-center"><div style="max-height:10vh;overflow-y:scroll">{{element.orders}}</div></td>
             <td class="text-center">Rp. {{formatPrice(element.total?element.total*1.1:0)}}</td>
             <td class="text-center"><button @click="getDetails(element.inv)"
-                class="btn-sm btn btn-warning mr-1">
+                class="btn-sm btn btn-warning mr-1 mb-1">
                 <b-icon icon="eye"></b-icon>
               </button>
-              <button @click="confirmDelete(element.inv)" class="btn-sm btn btn-danger">
+              <button @click="confirmDelete(element.inv)" class="btn-sm btn btn-danger mr-1 mb-1">
                 <b-icon icon="trash"></b-icon>
               </button></td>
           </tr>

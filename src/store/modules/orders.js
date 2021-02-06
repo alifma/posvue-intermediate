@@ -6,7 +6,7 @@ const moduleOrders = {
     return {
       apiURL: process.env.VUE_APP_APIURL,
       orders: [],
-      details: [],
+      details: [{ inv: 0, cashier: 'none' }],
       isLoading: false,
       detailOrdersLoading: false,
       historyLoading: false,
