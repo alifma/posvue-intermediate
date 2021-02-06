@@ -6,6 +6,9 @@ const moduleOrders = {
     return {
       apiURL: process.env.VUE_APP_APIURL,
       orders: [],
+      details: [],
+      isLoading: false,
+      historyLoading: false,
       pagination: {
         gainIncome: 0,
         gainOrders: 0,
@@ -21,9 +24,7 @@ const moduleOrders = {
         totalPages: 0,
         totalResult: 0,
         yesterdayIncome: 0
-      },
-      details: [],
-      isLoading: false
+      }
     }
   },
   getters: {
@@ -36,7 +37,8 @@ const moduleOrders = {
     detailsPPN (state) {
       return state.details.reduce((a, b) => a + b.amount * b.price, 0) * 0.1
     },
-    isLoading: state => state.isLoading
+    isLoading: state => state.isLoading,
+    historyLoading: state => state.historyLoading
   },
   mutations: {
     setOrders (state, payload) {
@@ -47,6 +49,9 @@ const moduleOrders = {
     },
     setDetails (state, payload) {
       state.details = payload
+    },
+    toggleHistory (state) {
+      state.historyLoading = !state.historyLoading
     }
   },
   actions: {
@@ -66,6 +71,9 @@ const moduleOrders = {
             reject(err)
           })
       })
+    },
+    toggleHistory (context) {
+      context.commit('toggleHistory')
     },
     getDetails (context, inv) {
       context.state.isLoading = true

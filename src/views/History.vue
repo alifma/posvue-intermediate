@@ -4,15 +4,15 @@
     <div class="row mx-0" style="width:100%">
       <div id="main" class="p0 d-flex w-100">
         <Sidebar />
-        <!-- <div class="text-center p-4 m-4 w-100" v-if="isLoading">
+        <div class="text-center p-4 m-4 w-100" v-if="historyLoading">
           <div class="d-flex justify-content-center w-100">
             <div class="spinner-border" role="status">
               <span class="sr-only">Loading...</span>
             </div>
           </div>
           <h5 class="mt-4">Fetching Data</h5>
-        </div> -->
-        <div class="MainContent p-3" style="width:100vw">
+        </div>
+        <div class="MainContent p-3" style="width:100vw" v-else>
           <CardIncome />
           <Revenue />
           <RecentOrder />
@@ -20,6 +20,7 @@
         </div>
       </div>
     </div>
+    <button @click="scrollTop()"> Scrol to Top</button>
   </div>
 </template>
 
@@ -31,7 +32,10 @@ import Revenue from '@/components/Revenue'
 import CardIncome from '@/components/CardIncome'
 import RecentOrder from '@/components/RecentOrder'
 import Categories from '@/components/Categories'
+import { posvueMixin } from '../helper/mixin'
+import { mapGetters } from 'vuex'
 export default {
+  mixins: [posvueMixin],
   name: 'History',
   components: {
     Navbar,
@@ -41,8 +45,10 @@ export default {
     RecentOrder,
     Categories
   },
-  methods: {
+  computed: {
+    ...mapGetters({
+      historyLoading: 'orders/historyLoading'
+    })
   }
-
 }
 </script>

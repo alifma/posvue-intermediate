@@ -5,8 +5,16 @@
       <div class="row mx-0">
         <div id="main" class="pt-0 pb-0 pl-0 mb-0 pr-4 d-flex " style="width:100%">
           <Sidebar />
+          <div class="text-center p-4 m-4 w-100" v-if="isLoading">
+            <div class="d-flex justify-content-center w-100">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <h5 class="mt-4">Fetching Data</h5>
+          </div>
           <!-- Menu Tiles -->
-          <div class="MainContent row p-3">
+          <div class="MainContent row p-3" v-else>
             <div class="col-lg-6 col-md-6 col-sm-12">
               <!-- Details Start -->
               <div class="card mb-3">
@@ -117,7 +125,8 @@ export default {
         image: '',
         category_id: 1,
         isReady: 1
-      }
+      },
+      isLoading: true
     }
   },
   components: {
@@ -131,7 +140,6 @@ export default {
       deleteMenus: 'menus/deleteMenus'
     }),
     getDetails () {
-      this.swalLoading('Fetching Data')
       this.actionGetDetails(this.id)
         .then((response) => {
           this.hold.name = response.name
@@ -139,10 +147,10 @@ export default {
           this.hold.category_id = response.category_id
           this.hold.image = response.image
           this.hold.isReady = response.isReady
-          this.$swal.close()
+          this.isLoading = false
         })
         .catch((err) => {
-          this.$swal.close()
+          this.isLoading = false
           console.log(err)
         })
     },
@@ -160,12 +168,12 @@ export default {
       this.actionUpdate(fixData)
         .then((response) => {
           if (response.data.code === 200) {
-            this.alertToast('success', msg)
             this.getDetails()
-            // this.showAddModal = false
+            this.$swal.close()
+            this.alertToast('success', msg)
           } else {
+            this.$swal.close()
             this.alertToast('error', response.data.msg)
-            // this.showAddModal = false
           }
         })
         .catch((err) => {
@@ -173,6 +181,7 @@ export default {
         })
     },
     onUpdate () {
+      this.swalLoading('Updating data ...')
       if (this.hold.isReady === false) {
         this.hold.isReady = 0
         this.buildUpdateData('Soft Delete Success')
@@ -218,6 +227,7 @@ export default {
     })
   },
   mounted () {
+    this.isLoading = true
     this.getDetails()
   }
 }

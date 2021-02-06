@@ -110,10 +110,10 @@ export default {
         if (result.value) {
           this.logout().then((response) => {
             if (response) {
-              this.alertToast('success', 'Logout Success')
+              this.swalToast('success', 'Logout Success')
               this.$router.push('/login')
             } else {
-              this.alertToast('error', 'Something went wrong')
+              this.swalToast('error', 'Something went wrong')
             }
           })
         }

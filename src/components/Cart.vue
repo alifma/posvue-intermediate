@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="cart">
     <div v-if="!carts.length" class="text-center p-4">
       <img class="img" style="width: 150px;" src="https://i.ibb.co/WFxBbwg/i-empty.png" alt="">
       <p class="font-weight-bolder mb-0" style="font-size: 24px;">Your cart is empty</p>

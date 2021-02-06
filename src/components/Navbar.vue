@@ -8,13 +8,13 @@
             <p class="navbar-brand float-left ml-3 h1" id="menu-toggle">
               <b-icon icon="list"></b-icon>
             </p>
-            <a class="navbar-brand text-center" href="#top">Food Items</a>
+            <a class="navbar-brand text-center" @click="scrollTop()">Food Items</a>
             <p class="navbar-brand float-right mr-3 h1" @click="toggleSearch()">
               <b-icon icon="search"></b-icon>
             </p>
           </div>
           <div id="navCart" class="col-lg-4 py-2 text-center">
-            <a href="#cart" class="navbar-brand">Cart <span class="badge badge-pill btn-blue">{{qtyCarts}}</span></a>
+            <a @click="scrollCart()" class="navbar-brand">Cart <span class="badge badge-pill btn-blue">{{qtyCarts}}</span></a>
           </div>
         </div>
       </nav>
@@ -27,7 +27,7 @@
             <p class="navbar-brand float-left ml-3 h1" id="menu-toggle">
               <b-icon icon="list"></b-icon>
             </p>
-            <a class="navbar-brand text-center" to="/">{{navtitle}}</a>
+            <a @click="scrollTop()" class="navbar-brand text-center">{{navtitle}}</a>
           </div>
         </div>
       </nav>
@@ -36,11 +36,9 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { posvueMixin } from '../helper/mixin'
 export default {
-  data () {
-    return {
-    }
-  },
+  mixins: [posvueMixin],
   props: ['navpage', 'navtitle'],
   methods: {
     ...mapActions({

@@ -10,7 +10,7 @@ html {
 /* Set Default  background for body */
 body {
   height: 100%;
-  margin: 0;
+  margin: 0 !important;
   padding: 0;
   background-color: rgba(190, 195, 202, 0.3);
 }

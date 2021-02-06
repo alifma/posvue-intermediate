@@ -32,21 +32,40 @@ export const posvueMixin = {
     formatPrice (value) {
       return value.toLocaleString().replace(/,/g, '.')
     },
-    alertToast (icon, title) {
+    swalToast (icon, title) {
       this.Toast.fire({
         icon,
         title
       })
     },
+    alertToast (variant, title) {
+      if (variant === 'error') {
+        variant = 'danger'
+      }
+      this.$bvToast.toast(title, {
+        title: 'POSvue Notification',
+        variant: variant,
+        toaster: 'b-toaster-top-center',
+        autoHideDelay: 1000
+        // solid: true
+      })
+    },
     swalLoading (title) {
       this.$swal.fire({
         title: title,
-        allowOutsideClick: false,
+        allowOutsideClick: true,
         showConfirmButton: false,
         willOpen: () => {
           this.$swal.showLoading()
         }
       })
+    },
+    scrollTop () {
+      this.currentStep++
+      window.scrollTo(0, 0)
+    },
+    scrollCart () {
+      window.scrollTo(0, 3000)
     }
   }
 }

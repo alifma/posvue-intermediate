@@ -3,7 +3,8 @@
     <div class="container my-4" id="container">
       <div class="form-container log-in-container" v-if="showRegister == true">
         <form class="" @submit.prevent="checkLogin()">
-          <h1>Login</h1>
+          <img src="https://i.ibb.co/MRPzNsg/i-empty-1.png" style="height:80px" class="d-sm-block d-md-none d-lg-none">
+          <div v-title="{ color: '#34495E', text: 'Login' }"></div>
           <span>To use your account</span>
           <input class="form-control mb-2" type="email" required autocomplete="false" v-model="email"
             placeholder="Email">
@@ -16,7 +17,7 @@
       </div>
       <div class="form-container log-in-container" v-else>
         <form class="" @submit.prevent="checkRegister()">
-          <h1>Register</h1>
+          <div v-title="{ color: '#34495E', text: 'Register' }"></div>
           <span>To create new account</span>
           <input class="form-control mb-2" type="text" required v-model="name" autocomplete="false" placeholder="Name">
           <input class="form-control mb-2" type="email" required v-model="email" autocomplete="false"
@@ -35,7 +36,8 @@
       <div class="overlay-container">
         <div class="overlay">
           <div class="overlay-panel overlay-right">
-            <img src="https://posvue-alifma.netlify.app/img/i-empty.png" alt="">
+            <img src="https://i.ibb.co/MRPzNsg/i-empty-1.png" alt="">
+            <!-- <img src="https://i.ibb.co/WFxBbwg/i-empty.png" alt=""> -->
             <h1>POS Vue</h1>
             <p class="mb-4">Point of Sales Application Using Vue.JS Framework</p>
             <p style="font-weight:bold">Demo User</p>
@@ -45,6 +47,7 @@
         </div>
       </div>
     </div>
+    <p class="text-center text-secondary"> &copy;alifma (Arkademy 2021)</p>
   </div>
 </template>
 
@@ -77,7 +80,8 @@ export default {
       this.login(data).then((response) => {
         if (response.data.code === 200) {
           this.$swal.close()
-          this.alertToast('success', 'System Login Success')
+          // this.alertToast('success', 'System login Success')
+          this.$swal({ icon: 'success', title: 'System Login Success', showConfirmButton: false, timer: 1500, toast: true, position: 'top' })
           this.$router.push('/')
         } else {
           this.$swal.close()
@@ -109,6 +113,14 @@ export default {
     },
     toggleRegister () {
       this.showRegister = !this.showRegister
+    }
+  },
+  directives: {
+    title (el, binding) {
+      el.innerHTML = binding.value.text
+      el.style.color = binding.value.color
+      el.style.fontSize = '40px'
+      el.style.fontWeight = 'bold'
     }
   }
 }
@@ -155,8 +167,9 @@ export default {
 
   button {
     border-radius: 20px;
-    border: 1px solid #57cad5;
-    background-color: #57cad5;
+    border-color: #50C792;
+    border:none;
+    background-color: #50C792;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: bold;
@@ -243,8 +256,8 @@ export default {
 
   .overlay {
     background: #5957d5;
-    background: -webkit-linear-gradient(to right,#57cad5, #5957d5);
-    background: linear-gradient(to right, #57cad5, #5957d5);
+    background: -webkit-linear-gradient(to right,#64696e, #34495E);
+    background: linear-gradient(to right, #64696e, #34495E);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
