@@ -23,7 +23,10 @@
       <!-- Sort By -->
     </div>
     <div class="card-body pt-0">
-      <table class="table table-responsive-sm" style="width:100%">
+       <div class="text-center p-5" v-if="!orders.length">
+         <h1>No Recent Order</h1>
+       </div>
+      <table class="table table-responsive-sm" style="width:100%" v-else>
         <thead>
           <tr>
             <th class="text-center" style="width:15%">INVOICES</th>
