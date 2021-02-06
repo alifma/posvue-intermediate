@@ -8,6 +8,7 @@ const moduleOrders = {
       orders: [],
       details: [],
       isLoading: false,
+      detailOrdersLoading: false,
       historyLoading: false,
       pagination: {
         gainIncome: 0,
@@ -38,7 +39,8 @@ const moduleOrders = {
       return state.details.reduce((a, b) => a + b.amount * b.price, 0) * 0.1
     },
     isLoading: state => state.isLoading,
-    historyLoading: state => state.historyLoading
+    historyLoading: state => state.historyLoading,
+    detailOrdersLoading: state => state.detailOrdersLoading
   },
   mutations: {
     setOrders (state, payload) {
@@ -50,8 +52,8 @@ const moduleOrders = {
     setDetails (state, payload) {
       state.details = payload
     },
-    toggleHistory (state) {
-      state.historyLoading = !state.historyLoading
+    toggleHistory (state, payload) {
+      state.historyLoading = payload
     }
   },
   actions: {
@@ -72,20 +74,20 @@ const moduleOrders = {
           })
       })
     },
-    toggleHistory (context) {
-      context.commit('toggleHistory')
+    toggleHistory (context, data) {
+      context.commit('toggleHistory', data)
     },
     getDetails (context, inv) {
-      context.state.isLoading = true
+      context.state.detailOrdersLoading = true
       return new Promise((resolve, reject) => {
         axios.get(`${context.state.apiURL}/orders/${inv}`, { headers: { token: context.rootState.auth.token } })
           .then((response) => {
             if (response.data.code === 200) {
               context.commit('setDetails', response.data.data)
-              context.state.isLoading = false
+              context.state.detailOrdersLoading = false
               resolve(response.data)
             } else {
-              context.state.isLoading = false
+              context.state.detailOrdersLoading = false
               resolve(response.data)
             }
           })

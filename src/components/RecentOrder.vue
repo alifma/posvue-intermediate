@@ -134,8 +134,7 @@ export default {
     ...mapActions({
       actionOrder: 'orders/getOrders',
       actionDetails: 'orders/getDetails',
-      actionDelete: 'orders/deleteOrders',
-      toggleHistory: 'orders/toggleHistory'
+      actionDelete: 'orders/deleteOrders'
     }),
     getOrders (data) {
       this.actionOrder(data)
@@ -157,16 +156,13 @@ export default {
       this.getOrders(this.order)
     },
     getDetails (inv) {
-      this.toggleHistory()
       this.showDetailModal = true
       this.actionDetails(inv)
         .then((response) => {
           if (response.code === 200) {
             this.showDetailModal = true
-            this.toggleHistory()
           } else {
             this.alertToast('error', response.msg)
-            this.toggleHistory()
           }
         })
         .catch((err) => {
@@ -206,7 +202,7 @@ export default {
       details: 'orders/details',
       detailsTotal: 'orders/detailsTotal',
       detailsPPN: 'orders/detailsPPN',
-      isLoading: 'orders/isLoading'
+      isLoading: 'orders/detailOrdersLoading'
     })
   },
   mounted () {
