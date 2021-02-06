@@ -1,6 +1,8 @@
 # POS-Vue
 <p align="center"><img src="https://i.ibb.co/MRPzNsg/i-empty-1.png" alt="ico" border="0"><p>
 <p align="center"><b>Point of Sales with Vue.JS</b></p>
+
+
 Frontend for Point of Sales Application, connected with [POS-Backend](https://github.com/alifma/pos-backend)
 
 ## Application Instalation
