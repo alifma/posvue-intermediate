@@ -132,7 +132,7 @@ export default {
       this.alertToast('success', msg)
     },
     checkout () {
-      if (this.trans.cashier === '' || this.trans.invoices === 0) {
+      if (this.trans.cashier === '' || this.trans.invoices === 0 || this.trans.invoices === '') {
         this.alertToast('error', 'Please Insert Cashier Name & Invoices')
       } else if (this.trans.invoices.length > 10) {
         this.alertToast('error', 'Please Check Invoices Length')

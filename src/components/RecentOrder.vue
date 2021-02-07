@@ -8,15 +8,19 @@
         <h3 class="font-weight-bolder mb-0 mt-2">Recent Order</h3>
       </div>
       <div class="col-sm-12 col-lg-4 col-md-4 d-inline-flex">
-        <select class="custom-select float-right"  v-model="order.range" @change="getOrdersByRange()">
-          <option value="day"> Day <b-icon icon="sort-alpha-up"></b-icon></option>
-          <option value="week"> Week <b-icon icon="sort-alpha-up"></b-icon></option>
-          <option value="month"> Month <b-icon icon="sort-alpha-up"></b-icon></option>
-          <option value="year"> Years <b-icon icon="sort-alpha-down"></b-icon></option>
+        <select class="custom-select float-right ml-2"  v-model="order.limit" @change="getOrdersByRange()">
+          <option value="5"> Limit: 5</option>
+          <option value="10"> Limit: 10</option>
         </select>
-        <select class="custom-select float-right ml-2"  v-model="order.sort" @change="getOrdersByRange()">
-          <option value="asc"> A &rarr; Z <b-icon icon="sort-alpha-up"></b-icon></option>
-          <option value="desc"> Z &rarr; A <b-icon icon="sort-alpha-down"></b-icon></option>
+        <select class="custom-select float-right ml-2"  v-model="order.range" @change="getOrdersByRange()">
+          <option value="day"> Day</option>
+          <option value="week"> Week </option>
+          <option value="month"> Month </option>
+          <option value="year"> Years</option>
+        </select>
+        <select class="custom-select float-right ml-2" style="width: min-content"  v-model="order.sort" @change="getOrdersByRange()">
+          <option value="asc"> A &rarr; Z </option>
+          <option value="desc"> Z &rarr; A </option>
         </select>
       </div>
       </div>

@@ -209,7 +209,7 @@ export default {
           this.deleteMenus(this.id)
             .then((response) => {
               if (response.data.code === 200) {
-                this.alertToast('success', 'Delete Menu Success')
+                this.swalToast('success', 'Delete Menu Success')
                 this.$router.push('/')
               } else {
                 this.alertToast('error', response.data.msg)

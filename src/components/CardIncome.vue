@@ -6,7 +6,7 @@
         <div id="card1" class="card p-4 h-100">
           <div class="card-body d-flex flex-column justify-content-center">
             <p class="card-text mb-1 font-weight-bold" style="font-size:12px">Today's Income</p>
-            <h5 class="card-title mb-0 font-weight-bolder">Rp. {{formatPrice(incomeData.todaysIncome)}}</h5>
+            <h5 class="card-title mb-0 font-weight-bolder">Rp. {{formatPrice(incomeData.todaysIncome*1.1)}}</h5>
             <p class="card-text mb-1 font-weight-bold" style="font-size:12px">{{Number(incomeData.gainIncome) > 0 ? '+' + Number(incomeData.gainIncome) : Number(incomeData.gainIncome)}}% Yesterday</p>
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips1">
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips2">
@@ -32,7 +32,7 @@
         <div id="card3" class="card p-4 h-100">
           <div class="card-body d-flex flex-column justify-content-center">
             <p class="card-text mb-1 font-weight-bold" style="font-size:12px">This Year's Income</p>
-            <h5 class="card-title mb-0 font-weight-bolder">Rp. {{formatPrice(incomeData.totalIncome)}}</h5>
+            <h5 class="card-title mb-0 font-weight-bolder">Rp. {{formatPrice(incomeData.totalIncome*1.1)}}</h5>
             <p class="card-text mb-1 font-weight-bold" style="font-size:12px">+10% Last Year</p>
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips1">
             <img src="https://i.ibb.co/yycXDvx/i-elips.png" class="elips2">

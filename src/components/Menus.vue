@@ -25,16 +25,22 @@
       <!-- End SearchBar -->
       <!-- Start Sort By-->
       <div class="col-sm-6 d-inline-flex">
+        <select class="custom-select float-right" v-model="form.limit" @change="changeOrderSort()">
+          <option value="3">Limit: 3</option>
+          <option value="6">Limit: 6</option>
+          <option value="9">Limit: 9</option>
+          <option value="12">Limit: 12</option>
+        </select>
         <select class="custom-select float-right" v-model="form.order" @change="changeOrderSort()">
           <option value="created_at">Added</option>
           <option value="name">Name</option>
           <option value="price">Price</option>
-          <option value="category">Category</option>
+          <option value="category_id">Category</option>
         </select>
-        <select class="custom-select float-right" v-model="form.sort" @change="changeOrderSort()">
-          <option value="asc"> Ascending <b-icon icon="sort-alpha-down"></b-icon>
+        <select class="custom-select float-right" style="width: min-content" v-model="form.sort" @change="changeOrderSort()">
+          <option value="asc"> A &rarr; Z <b-icon icon="sort-alpha-down"></b-icon>
           </option>
-          <option value="desc"> Descending <b-icon icon="sort-alpha-up"></b-icon>
+          <option value="desc"> Z &rarr; A <b-icon icon="sort-alpha-up"></b-icon>
           </option>
         </select>
       </div>
@@ -56,7 +62,7 @@
       <img src="https://i.ibb.co/ZmtvK2V/undraw-server-down-s4lk-1.png" class="img-fluid" style="max-height:40%" alt="">
       <h1 class="pt-4 font-weight-bold">Server Not Connected</h1>
       <h4 class="">Please start your server and refresh the page</h4>
-      <button type="button" @click="getMenus" class="btn font-weight-bold btn-blue">Refresh Page</button>
+      <button type="button" @click="getMenusByName" class="btn font-weight-bold btn-blue">Refresh Page</button>
     </div>
     <!-- End Disconnected -->
     <!-- Start Menus -->
@@ -92,8 +98,10 @@
       </div>
       <!-- End Menus Has Data -->
       <!-- Start Menus No Data -->
-      <div class="row ml-2 text-center p-4" v-else style="width:100%">
-        <h1 class="w-100">No Result</h1>
+      <div class="ml-2 text-center p-4 w-100" v-else>
+        <h1>No Result</h1>
+        <br>
+        <button @click="resetSearch()" class="btn-primary btn">Reset Search</button>
       </div>
       <!-- End Menus No Data -->
     </div>
@@ -155,6 +163,17 @@ export default {
       this.getMenus(this.form)
     },
     changeOrderSort () {
+      this.getMenus(this.form)
+    },
+    resetSearch () {
+      this.form = {
+        searchName: '',
+        page: 1,
+        limit: 6,
+        order: 'created_at',
+        sort: 'asc',
+        ready: 1
+      }
       this.getMenus(this.form)
     },
     setClicked (value) {
