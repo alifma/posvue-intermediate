@@ -1,7 +1,8 @@
 # POS-Vue
-<p align="center">
-![Posvue Logo](./public/mainIcon.png)
-</p>
+<p align="center"><img src="https://i.ibb.co/MRPzNsg/i-empty-1.png" alt="ico" border="0"><p>
+<p align="center"><b>Point of Sales with Vue.JS</b></p>
+
+
 Frontend for Point of Sales Application, connected with [POS-Backend](https://github.com/alifma/pos-backend)
 
 ## Application Instalation
@@ -10,7 +11,7 @@ Frontend for Point of Sales Application, connected with [POS-Backend](https://gi
 2. Install [Backend Posvue](https://github.com/alifma/pos-backend)
 3. Start Application
    > `npm run serve`
-
+  
 ## Features
 - CRUD Menus
 - CRUD Categories
@@ -34,3 +35,8 @@ Frontend for Point of Sales Application, connected with [POS-Backend](https://gi
 
 ## Branch Information
 > Master branch is stable version of this application
+
+## Screenshot
+<img src="https://i.ibb.co/mCg0P3W/POS-Vue.png">
+<img src="https://i.ibb.co/wcCRbRD/POS-Vue-3.png">
+<img src="https://i.ibb.co/0fnb9Z8/POS-Vue-1.png">
