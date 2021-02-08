@@ -1,5 +1,5 @@
 <template>
-  <div class="row pt-4 mx-0" style="height:min-content;width:100%">
+  <div class="d-flex pt-4 mx-0"  style="width:100%;height:90vh;flex-direction:column">
     <!-- Start Search and Sort Combo -->
     <div id="top" v-show="searchBarStatus" class="row ml-2 mb-4" style="width:100%">
       <!-- Search Bar -->
@@ -68,7 +68,7 @@
     <!-- Start Menus -->
     <div v-else class="w-100">
       <!-- Start Menus Has Data -->
-      <div class="row ml-2" v-if="menus.length != undefined" style="width:100%">
+      <div class="row ml-2" v-if="menus.length != undefined" style="width:100%;height:80vh;overflow-y:scroll;">
         <div class="col-lg-4 col-md-4 col-sm-6 mb-3" style="height:min-content" v-for="item in menus" :key="item.id">
           <div :id="'menuCard'+item.id" class="card menuCard bg-transparent border-0">
             <div class="card-image" @click="setClicked(item);addToCart(item)" :class="{clicked: item.isClicked}">
@@ -105,9 +105,9 @@
       </div>
       <!-- End Menus No Data -->
     </div>
-    <div class="row ml-2 mb-4 text-center" style="width:100%">
+    <div class="row ml-2 mb-4 text-center position-sticky" style="width:100%;bottom:0px;background:#EBECEE">
         <!-- Start Pagination -->
-        <div class="w-100">
+        <div class="w-100 p-2">
           <h5 class="mb-0 d-inline font-weight-bold">Select Page: </h5>
           <div class="d-inline" v-for="(element, index) in pagination.pageResult" :key="index">
             <h5 class="d-inline"><span class="badge badge-primary mx-2" @click="getMenusByPage(element)">{{element}}

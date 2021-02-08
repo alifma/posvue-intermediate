@@ -1,14 +1,18 @@
 <template>
-  <div id="sidebar">
-    <div class="bg-white p-0 mr-1" style="position:sticky-left;height:100%" id="sidebar-main">
+  <div id="sidebar" class="sticky-top">
+    <div class="bg-white p-0 mr-1" style="position:sticky" id="sidebar-main">
       <div class="list-group">
         <router-link to="/" class="text-center list-group-item sidebar-item bg-white">
           <img src="https://i.ibb.co/nLXYpRV/i-menu.png" class="img-fluid" alt="">
         </router-link>
+        <a id="btnCart" class="text-center list-group-item sidebar-item bg-white" @click="$bvModal.show('modal-newcart')" >
+          <img src="https://i.ibb.co/VqHgpHj/cart.png" style="position:relative" class="img-fluid" alt="">
+          <span class="badge badge-pill btn-blue"  style="position:absolute;right:25px;left:25px;bottom:0px" >{{qtyCarts}}</span>
+        </a>
         <router-link to="/history" class=" text-center list-group-item sidebar-item bg-white">
           <img src="https://i.ibb.co/kmWGqSQ/i-report.png" class="img-fluid" alt="">
         </router-link>
-        <a v-if="access == 0" class="text-center list-group-item sidebar-item bg-white" id="show-modal" @click="showAddModal = true">
+        <a v-if="access == 0" class="text-center list-group-item sidebar-item bg-white" @click="$bvModal.show('addModal')">
           <img src="https://i.ibb.co/4TWDTdZ/i-add.png" class="img-fluid" alt="">
         </a>
         <p @click="onLogout()" class=" text-center list-group-item sidebar-item bg-white">
@@ -16,54 +20,54 @@
         </p>
       </div>
     </div>
-    <modal v-if="showAddModal" @close="showAddModal = false">
-      <div slot="header">
-        <h5 class="modal-title font-weight-bolder">Add Item</h5>
-      </div>
-      <div slot="body">
-        <form action="" @submit.prevent="onSubmit()" autocomplete="off" >
-          <div class="mb-3 row">
-            <label for="inputName" class="col-sm-3 col-form-label font-weight-bold">Name</label>
-            <div class="col-sm-9">
-              <input type="text" class="form-control shadow" v-model="newForm.name" placeholder="Food Name" id="inputName">
-            </div>
+    <b-modal id="addModal" centered hide-footer>
+      <template #modal-title>
+        <div style="text-center w-100">
+          <p class="font-weight-bold mb-0">Add Item</p>
+        </div>
+      </template>
+      <form action="" @submit.prevent="onSubmit()" autocomplete="off">
+        <div class="mb-3 row">
+          <label for="inputName" class="col-sm-3 col-form-label font-weight-bold">Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control shadow" required v-model="newForm.name" placeholder="Food Name"
+              id="inputName">
           </div>
-          <div class="mb-3 row">
-            <label for="inputImage" class="col-sm-3 col-form-label font-weight-bold">Image</label>
-            <div class="col-sm-9">
-              <input type="file" @change="processFile($event)" class="form-control shadow" style="line-height:20px" placeholder="http://...." id="inputImage">
-            </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="inputImage" class="col-sm-3 col-form-label font-weight-bold">Image</label>
+          <div class="col-sm-9">
+            <input type="file" @change="processFile($event)" required class="form-control shadow" style="line-height:20px"
+              placeholder="http://...." id="inputImage">
           </div>
-          <div class="mb-3 row">
-            <label for="inputPrice" class="col-sm-3 col-form-label font-weight-bold">Price</label>
-            <div class="col-sm-7">
-              <input type="number" class="form-control shadow" style="text-align:right" placeholder="0" v-model="newForm.price"
-                id="inputPrice">
-            </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="inputPrice" class="col-sm-3 col-form-label font-weight-bold">Price</label>
+          <div class="col-sm-7">
+            <input type="number" class="form-control shadow" required style="text-align:right" placeholder="0"
+              v-model="newForm.price" id="inputPrice">
           </div>
-          <div class="mb-3 row">
-            <label for="inputCategory" class="col-sm-3 col-form-label font-weight-bold">Category</label>
-            <div class="col-sm-5">
-              <b-form-select v-model="newForm.category_id" :options="categories"></b-form-select>
-            </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="inputCategory" class="col-sm-3 col-form-label font-weight-bold">Category</label>
+          <div class="col-sm-5">
+            <b-form-select v-model="newForm.category_id" :options="categories" required ></b-form-select>
           </div>
-          <div class="div" style="text-align:right">
-          <a class="btn btn-pink mr-4" style="width:100px" @click="showAddModal = false">
+        </div>
+        <div class="div" style="text-align:right">
+          <a class="btn btn-pink mr-4" style="width:100px" @click="$bvModal.hide('addModal')">
             Cancel
           </a>
           <button class="btn btn-blue" style="width:100px" type="submit">
             Add
           </button>
         </div>
-        </form>
-      </div>
-      <div slot="footer"></div>
-    </modal>
+      </form>
+    </b-modal>
   </div>
 </template>
 
 <script>
-import modal from '@/components/Modal.vue'
 import { mapActions, mapGetters } from 'vuex'
 import { posvueMixin } from '../helper/mixin'
 export default {
@@ -71,7 +75,6 @@ export default {
   name: 'Sidebar',
   data () {
     return {
-      showAddModal: false,
       status: 1,
       newForm: {
         name: '',
@@ -81,13 +84,11 @@ export default {
       }
     }
   },
-  components: {
-    modal
-  },
   computed: {
     ...mapGetters({
       categories: 'categories/categories',
-      access: 'auth/getAccess'
+      access: 'auth/getAccess',
+      qtyCarts: 'menus/qtyCarts'
     })
   },
   methods: {
@@ -130,7 +131,7 @@ export default {
     },
     onSubmit () {
       this.swalLoading('Uploading Data')
-      this.showAddModal = false
+      this.$bvModal.hide('addModal')
       const fd = new FormData()
       fd.append('name', this.newForm.name)
       fd.append('price', this.newForm.price)

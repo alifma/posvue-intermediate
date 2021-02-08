@@ -72,6 +72,8 @@ input[type=number]::-webkit-outer-spin-button {
 /* Alternate Sidebar */
 #main {
   overflow-x: hidden;
+  height:100vh;
+  overflow-y:scroll;
 }
 .MainContent {
   width: 100vw;
@@ -203,6 +205,26 @@ input[type=number]::-webkit-outer-spin-button {
 @media (min-width: 992px) {
   #navMenu {
       border-right: 1px solid black;
+  }
+  #navCart {
+    display: block
+  }
+  #mainCart {
+    display: block
+  }
+  #btnCart {
+    display:none
+  }
+}
+@media (max-width: 991px) {
+  #navCart {
+    display:none
+  }
+  #mainCart {
+    display: none
+  }
+  #btnCart {
+    display:block
   }
 }
 

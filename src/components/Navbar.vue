@@ -1,10 +1,10 @@
 <template>
-   <div class="container-fluid px-0 sticky-top " shadow>
+   <div class="container-fluid px-0 sticky-top" style="height:10vh" shadow>
     <!-- Navbar Menu -->
     <div v-if="navpage == 'home'" class="div">
       <nav class="navbar navbar-light shadow font-weight-bold bg-white">
         <div class="row" style="width:100vw">
-          <div id="navMenu" class="col-lg-8 py-2 text-center" style="font-size:20px">
+          <div id="navMenu" class="col-lg-8 col-sm-12  py-2 text-center" style="font-size:20px">
             <p class="navbar-brand float-left ml-3 h1" id="menu-toggle">
               <b-icon icon="list"></b-icon>
             </p>
@@ -14,7 +14,7 @@
             </p>
           </div>
           <div id="navCart" class="col-lg-4 py-2 text-center">
-            <a @click="scrollCart()" class="navbar-brand">Cart <span class="badge badge-pill btn-blue">{{qtyCarts}}</span></a>
+            <a class="navbar-brand">Cart <span class="badge badge-pill btn-blue">{{qtyCarts}}</span></a>
           </div>
         </div>
       </nav>

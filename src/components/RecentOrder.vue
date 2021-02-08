@@ -67,17 +67,18 @@
       </div>
     </div>
     <!-- Modal Details -->
-    <modal v-if="showDetailModal" @close="showDetailModal = false">
-      <div slot="header" class="w-100">
-        <div class="d-flex w-auto">
-          <h5 class="modal-title font-weight-bolder">Details</h5>
-          <p class="font-weight-bold w-100 mb-0 float-right" style="text-align:right">Receipt no:#{{details[0].inv}}
-          </p>
-        </div>
-        <p style="font-size: 12px;" class="mb-0 font-weight-bold">Cashier: {{details[0].cashier}}</p>
+    <b-modal id="modal-details" hide-footer hide-header centered>
+      <div class="d-flex w-auto">
+        <h5 class="modal-title font-weight-bolder">Checkout</h5>
+        <p class="font-weight-bold w-100 mb-0 float-right" style="text-align:right">Receipt no:#{{details[0].inv}}
+        </p>
       </div>
-      <div slot="body" style="max-height:50vh;overflow-y:scroll">
-        <div class="text-center" v-if="isLoading">
+      <div class="d-flex w-auto">
+        <p style="font-size: 12px;text-align:left" class="mb-0 w-50 font-weight-bold">Cashier: {{details[0].cashier}}</p>
+      </div>
+      <!-- Body Checkout-->
+      <div style="max-height:50vh;overflow-y:scroll">
+        <div class="text-center p-4 m-4" v-if="isLoading">
           <div class="d-flex justify-content-center w-100">
             <div class="spinner-border" role="status">
               <span class="sr-only">Loading...</span>
@@ -85,15 +86,15 @@
           </div>
           <h5 class="mt-4">Fetching Data</h5>
         </div>
-          <table v-else class="p-0 table table-borderless mt-4" style="width:100%;">
+        <table v-else class="p-0 table table-borderless mt-4" style="width:100%">
           <tbody>
             <tr v-for="item in details" :key="item.id" class="mb-3" style="width:100%">
-              <td style="width:70%" class="pb-0 font-weight-bold">{{item.menu}} {{item.amount}}x</td>
+              <td style="width:70%;text-align:left" class="pb-0 font-weight-bold">{{item.menu}} {{item.amount}}x</td>
               <td style="text-align:right; width:30%" class="pb-0 font-weight-bold">Rp.
                 {{formatPrice(item.price*item.amount)}}</td>
             </tr>
             <tr>
-              <td class="font-weight-bold pb-0">PPN 10%</td>
+              <td class="font-weight-bold pb-0" style="text-align:left">PPN 10%</td>
               <td style="text-align:right" class="font-weight-bold pb-0">Rp.{{formatPrice(detailsPPN)}}</td>
             </tr>
             <tr>
@@ -103,26 +104,26 @@
               </td>
             </tr>
             <tr>
-              <td class="font-weight-bold pb-0">Payment : Cash</td>
+              <td class="font-weight-bold pb-0" style="text-align:left">Payment : Cash</td>
               <td></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <!-- Checkout Footer -->
-      <div slot="footer">
-        <button class="btn btn-pink font-weight-bolder d-block mb-2" @click="showDetailModal = false"
+      <!-- End Body Checkout -->
+      <!-- Checkout Option -->
+      <div>
+        <button class="btn btn-pink font-weight-bolder d-block mb-2" @click="$bvModal.hide('modal-details')"
           style="width:100%">Close</button>
       </div>
-    </modal>
-    <!-- End Modal Details -->
+      <!-- End Checkout Option -->
+    </b-modal>
   </div>
 </template>
 
 <script>
 import { posvueMixin } from '../helper/mixin'
 import { mapActions, mapGetters } from 'vuex'
-import Modal from '../components/Modal'
 export default {
   name: 'RecentOrder',
   mixins: [posvueMixin],
@@ -130,9 +131,6 @@ export default {
     return {
       showDetailModal: false
     }
-  },
-  components: {
-    Modal
   },
   methods: {
     ...mapActions({
@@ -160,11 +158,11 @@ export default {
       this.getOrders(this.order)
     },
     getDetails (inv) {
-      this.showDetailModal = true
+      this.$bvModal.show('modal-details')
       this.actionDetails(inv)
         .then((response) => {
           if (response.code === 200) {
-            this.showDetailModal = true
+            this.$bvModal.show('modal-details')
           } else {
             this.alertToast('error', response.msg)
           }
