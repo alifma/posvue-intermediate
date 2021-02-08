@@ -3,7 +3,7 @@
     <div class="card-header border-0 mt-3 bg-white">
       <!-- Title Section -->
       <h3 class="font-weight-bolder d-inline-block mb-0 mt-2">Categories</h3>
-      <button class="float-right btn btn-blue font-weight-bold" @click="addCategory()">
+      <button v-if="access == 0" class="float-right btn btn-blue font-weight-bold" @click="addCategory()">
         <b-icon icon='plus'></b-icon> Add Category
       </button>
     </div>
@@ -18,7 +18,7 @@
                   <th class="text-center" style="width:30%">CATEGORY</th>
                   <th class="text-center" style="width:15%">CREATED</th>
                   <th class="text-center" style="width:15%">UPDATED</th>
-                  <th class="text-center" style="width:20%">ACTION</th>
+                  <th v-if="access == 0" class="text-center" style="width:20%">ACTION</th>
                 </tr>
               </thead>
               <tbody class="text-secondary" v-for="(element, index) in actCategories" :key="index">
@@ -28,7 +28,7 @@
                   <td class="text-center">{{new Date(element.created_at).toLocaleDateString()}}</td>
                   <td class="text-center">
                     {{element.updated_at ? new Date(element.updated_at).toLocaleDateString() : '-'}}</td>
-                  <td class="text-center">
+                  <td v-if="access == 0"  class="text-center">
                     <button @click="editCategory(element)" class="btn-sm btn btn-warning mr-1 mb-1">
                       <b-icon icon="pencil"></b-icon>
                     </button>
@@ -52,7 +52,7 @@
                   <th class="text-center" style="width:30%">NAME</th>
                   <th class="text-center" style="width:20%">CREATED</th>
                   <th class="text-center" style="width:20%">DELETED</th>
-                  <th class="text-center" style="width:20%">ACTION</th>
+                  <th v-if="access == 0" class="text-center" style="width:20%">ACTION</th>
                 </tr>
               </thead>
               <tbody class="text-secondary" v-for="(element, index) in deactCategories" :key="index">
@@ -62,7 +62,7 @@
                   <td class="text-center">{{new Date(element.created_at).toLocaleDateString()}}</td>
                   <td class="text-center">
                     {{element.updated_at ? new Date(element.updated_at).toLocaleDateString() : '-'}}</td>
-                  <td class="text-center">
+                  <td v-if="access == 0" class="text-center">
                     <button @click="activate(element.id)" class="btn-sm btn btn-success mr-1 mb-1">
                       <b-icon icon="power"></b-icon>
                     </button>
@@ -96,7 +96,8 @@ export default {
   computed: {
     ...mapGetters({
       actCategories: 'categories/actCategories',
-      deactCategories: 'categories/deactCategories'
+      deactCategories: 'categories/deactCategories',
+      access: 'auth/getAccess'
     })
   },
   methods: {

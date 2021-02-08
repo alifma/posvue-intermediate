@@ -89,7 +89,7 @@
                     {{formatPrice(item.price)}}</h4>
                 </div>
                 <div class="col-4 my-auto" style="text-align:right">
-                  <router-link :to="'/menus/'+item.id" class="btn-blue btn">Detail</router-link>
+                  <router-link v-if="access == 0" :to="'/menus/'+item.id" class="btn-blue btn">Detail</router-link>
                 </div>
               </div>
             </div>
@@ -135,7 +135,8 @@ export default {
       menus: 'menus/menus',
       pagination: 'menus/pagination',
       searchBarStatus: 'searchBarStatus',
-      isLoading: 'menus/isLoading'
+      isLoading: 'menus/isLoading',
+      access: 'auth/getAccess'
     })
   },
   methods: {

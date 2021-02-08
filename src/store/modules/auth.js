@@ -4,12 +4,14 @@ const moduleAuth = {
   state: () => {
     return {
       token: localStorage.getItem('token') || null,
-      cashier: localStorage.getItem('cashier') || null
+      cashier: localStorage.getItem('cashier') || null,
+      access: localStorage.getItem('access') || null
     }
   },
   getters: {
     getToken: state => state.token,
-    getCashier: state => state.cashier
+    getCashier: state => state.cashier,
+    getAccess: state => state.access
   },
   mutations: {
     setToken (state, payload) {
@@ -17,6 +19,9 @@ const moduleAuth = {
     },
     setCashier (state, payload) {
       state.cashier = payload
+    },
+    setAccess (state, payload) {
+      state.access = payload
     }
   },
   actions: {
@@ -28,6 +33,8 @@ const moduleAuth = {
             context.commit('setToken', response.data.pagination.token)
             localStorage.setItem('cashier', response.data.pagination.name)
             context.commit('setCashier', response.data.pagination.name)
+            localStorage.setItem('access', response.data.pagination.access)
+            context.commit('setAccess', response.data.pagination.access)
             resolve(response)
           } else {
             resolve(response)
@@ -42,7 +49,9 @@ const moduleAuth = {
         localStorage.removeItem('token')
         context.commit('setToken', null)
         localStorage.removeItem('cashier')
-        context.commit('setCashier', '')
+        context.commit('setCashier', null)
+        localStorage.removeItem('access')
+        context.commit('setAccess', null)
         resolve(true)
       })
     },

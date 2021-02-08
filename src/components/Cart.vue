@@ -39,12 +39,6 @@
           <h6 class="font-weight-bolder mb-0 d-inline">Total:<span style="float:right">
               Rp.{{formatPrice(totalPrice)}}*</span></h6>
           <p style="font-size: 12px;">*Belum termasuk PPN</p>
-          <!-- Input Name & Cashier -->
-          <div class="input-group mb-3">
-            <input type="text" class="form-control mr-1" required v-model="trans.cashier" :placeholder="trans.cashier" readonly>
-            <input type="number" class="form-control ml-1" required v-model="trans.invoices" placeholder="Invoices">
-          </div>
-          <!-- End Input Name & Cashier -->
           <button class="btn btn-blue d-block mb-2" style="width:100%" @click="checkout()"
             type="submit">Checkout</button>
           <a href="#" class="btn btn-pink d-block" @click="cancelCart('Cart has been cleaned')" style="width:100%">Cancel</a>
@@ -55,11 +49,14 @@
       <modal v-if="showCheckoutModal" @close="showCheckoutModal = false">
         <div slot="header" class="w-100">
           <div class="d-flex w-auto">
-            <h5 class="modal-title font-weight-bolder">Checkout</h5>
+            <h5 class="modal-title font-weight-bolder" >Checkout</h5>
             <p class="font-weight-bold w-100 mb-0 float-right" style="text-align:right">Receipt no:#{{trans.invoices}}
             </p>
           </div>
-          <p style="font-size: 12px;text-align:left" class="mb-0 font-weight-bold">Cashier: {{trans.cashier}}</p>
+         <div class="d-flex w-auto">
+            <p style="font-size: 12px;text-align:left" class="mb-0 w-50 font-weight-bold">Cashier: {{trans.cashier}}</p>
+            <p style="font-size: 12px;text-align:right" class="mb-0 w-50 font-weight-bold float-right text-danger" @click="showCheckoutModal = false">Cancel Order</p>
+         </div>
         </div>
         <div slot="body" style="max-height:50vh;overflow-y:scroll">
           <table class="p-0 table table-borderless mt-4" style="width:100%">
@@ -125,17 +122,27 @@ export default {
       clearCarts: 'menus/clearCarts',
       postCarts: 'menus/postCart'
     }),
+    generateInv () {
+      const invBase = Math.floor((Math.random() * 1000) + 1)
+      let prefix = invBase + ''
+      while (prefix.length < 4) { prefix = '0' + prefix }
+      let invDate = new Date().getDate()
+      let invMonth = new Date().getMonth() + 1
+      if (invMonth < 10) { invMonth = '0' + invMonth }
+      if (invDate < 10) { invDate = '0' + invDate }
+      const invYear = new Date().getFullYear().toString().slice(2, 4)
+      const finalDate = `${invYear}${invMonth}${invDate}${prefix}`
+      this.trans.invoices = finalDate
+    },
     cancelCart (msg) {
       this.clearCarts()
       this.trans.cashier = this.cashier
-      this.trans.invoices = 0
+      this.generateInv()
       this.alertToast('success', msg)
     },
     checkout () {
-      if (this.trans.cashier === '' || this.trans.invoices === 0 || this.trans.invoices === '') {
-        this.alertToast('error', 'Please Insert Cashier Name & Invoices')
-      } else if (this.trans.invoices.length > 10) {
-        this.alertToast('error', 'Please Check Invoices Length')
+      if (this.access === 0) {
+        this.swalToast('error', 'Only cashier allowed')
       } else {
         this.showCheckoutModal = true
       }
@@ -148,13 +155,13 @@ export default {
             this.clearCarts()
             this.$swal.close()
             this.trans.cashier = this.cashier
-            this.trans.invoices = 0
+            this.generateInv()
             this.alertToast('success', 'Order data success')
           } else {
             this.clearCarts()
             this.$swal.close()
             this.trans.cashier = this.cashier
-            this.trans.invoices = 0
+            this.generateInv()
             this.alertToast('error', response.data.msg)
           }
         })
@@ -169,11 +176,13 @@ export default {
       carts: 'menus/carts',
       totalPrice: 'menus/totalPrice',
       ppn: 'menus/ppn',
-      cashier: 'auth/getCashier'
+      cashier: 'auth/getCashier',
+      access: 'auth/getAccess'
     })
   },
   mounted () {
     this.trans.cashier = this.cashier
+    this.generateInv()
   }
 }
 </script>

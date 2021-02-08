@@ -8,10 +8,10 @@
         <router-link to="/history" class=" text-center list-group-item sidebar-item bg-white">
           <img src="https://i.ibb.co/kmWGqSQ/i-report.png" class="img-fluid" alt="">
         </router-link>
-        <a class="text-center list-group-item sidebar-item bg-white" id="show-modal" @click="showAddModal = true">
+        <a v-if="access == 0" class="text-center list-group-item sidebar-item bg-white" id="show-modal" @click="showAddModal = true">
           <img src="https://i.ibb.co/4TWDTdZ/i-add.png" class="img-fluid" alt="">
         </a>
-         <p @click="onLogout()" class=" text-center list-group-item sidebar-item bg-white">
+        <p @click="onLogout()" class=" text-center list-group-item sidebar-item bg-white">
           <img src="https://i.ibb.co/kMbfJjB/182-1821638-logout-icon-png-red-clipart.png" class="img-fluid" alt="">
         </p>
       </div>
@@ -86,7 +86,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      categories: 'categories/categories'
+      categories: 'categories/categories',
+      access: 'auth/getAccess'
     })
   },
   methods: {

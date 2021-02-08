@@ -52,7 +52,7 @@
                 class="btn-sm btn btn-warning mr-1 mb-1">
                 <b-icon icon="eye"></b-icon>
               </button>
-              <button @click="confirmDelete(element.inv)" class="btn-sm btn btn-danger mr-1 mb-1">
+              <button v-if="access == 0" @click="confirmDelete(element.inv)" class="btn-sm btn btn-danger mr-1 mb-1">
                 <b-icon icon="trash"></b-icon>
               </button></td>
           </tr>
@@ -206,7 +206,8 @@ export default {
       details: 'orders/details',
       detailsTotal: 'orders/detailsTotal',
       detailsPPN: 'orders/detailsPPN',
-      isLoading: 'orders/detailOrdersLoading'
+      isLoading: 'orders/detailOrdersLoading',
+      access: 'auth/getAccess'
     })
   },
   mounted () {
