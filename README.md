@@ -5,6 +5,9 @@
 
 Frontend for Point of Sales Application, connected with [POS-Backend](https://github.com/alifma/pos-backend)
 
+## Demo
+You can try demo of this application [here](http://pos.alifma.com)
+
 ## Application Instalation
 1. Install Required NPM Packages 
    > `npm install`
