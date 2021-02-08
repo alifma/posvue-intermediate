@@ -46,17 +46,17 @@
                   <form action="" @submit.prevent="onUpdate(details.id)">
                     <div class="form-group">
                       <label for="exampleFormControlInput1" class="font-weight-bold">Menu Name</label>
-                      <input type="text" class="form-control" v-model="hold.name" :placeholder="details.name">
+                      <input type="text" class="form-control" required v-model="hold.name" :placeholder="details.name">
                     </div>
                     <div class="form-group">
                       <div class="row">
                         <div class="col">
                           <label for="exampleFormControlInput1" class="font-weight-bold">Menu Price</label>
-                          <input type="number" class="form-control" v-model="hold.price" :placeholder="details.price">
+                          <input type="number" class="form-control" required v-model="hold.price" :placeholder="details.price">
                         </div>
                         <div class="col">
                           <label for="exampleFormControlSelect2" class="font-weight-bold">Category</label>
-                          <b-form-select v-model="hold.category_id" :options="categories">{{details.category_id}}
+                          <b-form-select v-model="hold.category_id" required :options="categories">{{details.category_id}}
                           </b-form-select>
                         </div>
                       </div>
