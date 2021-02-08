@@ -39,7 +39,7 @@
           <h6 class="font-weight-bolder mb-0 d-inline">Total:<span style="float:right">
               Rp.{{formatPrice(totalPrice)}}*</span></h6>
           <p style="font-size: 12px;">*Belum termasuk PPN</p>
-          <button class="btn btn-blue d-block mb-2" style="width:100%"  @click="checkout()"
+          <button class="btn btn-blue d-block mb-2" style="width:100%" @click="checkout()"
             type="submit">Checkout</button>
           <a href="#" class="btn btn-pink d-block" @click="cancelCart('Cart has been cleaned')" style="width:100%">Cancel</a>
         </div>
@@ -91,8 +91,8 @@
         <div id="checkOut" style="text-align:left">
           <h6 class="font-weight-bolder mb-0 d-inline">Total:<span style="float:right">
               Rp.{{formatPrice(totalPrice)}}*</span></h6>
-          <p style="font-size: 12px;">*Belum termasuk PPN</p>
-          <button class="btn btn-blue d-block mb-2" style="width:100%" @click="$bvModal.show('modal-newCheckout');$bvModal.hide('modal-newcart')"
+          <p style="font-size: 12px;">*Belum termasuk PPNs</p>
+          <button class="btn btn-blue d-block mb-2" style="width:100%" @click="checkout()"
             type="submit">Checkout</button>
           <a href="#" class="btn btn-pink d-block" @click="cancelCart('Cart has been cleaned');$bvModal.hide('modal-newcart')" style="width:100%">Cancel</a>
         </div>
@@ -196,7 +196,9 @@ export default {
     },
     checkout () {
       if (this.access === 0) {
+        this.$bvModal.hide('modal-newcart')
         this.alertToast('error', 'Only cashier allowed')
+        this.clearCarts()
       } else {
         this.$bvModal.show('modal-newCheckout')
       }
