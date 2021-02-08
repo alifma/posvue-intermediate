@@ -12,7 +12,7 @@
           </div>
           <h5 class="mt-4">Fetching Data</h5>
         </div>
-        <div class="MainContent p-3" style="width:100vw" v-else>
+        <div class="MainContent p-3 mt-4" style="width:100vw" v-else>
           <CardIncome />
           <Revenue />
           <RecentOrder />

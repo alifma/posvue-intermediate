@@ -1,6 +1,6 @@
 <template>
   <div id="sidebar" class="sticky-top">
-    <div class="bg-white p-0 mr-1" style="position:sticky" id="sidebar-main">
+    <div class="bg-white p-0 mr-1" id="sidebar-main">
       <div class="list-group">
         <router-link to="/" class="text-center list-group-item sidebar-item bg-white">
           <img src="https://i.ibb.co/nLXYpRV/i-menu.png" class="img-fluid" alt="">
